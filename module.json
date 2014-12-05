@@ -1,16 +1,16 @@
 {
-  "name": "uvisor-blinky",
+  "name": "uvisor-helloworld",
   "version": "0.0.0",
-  "description": "Blinking LED with uVisor security features",
+  "description": "Hello world example with security enabled",
   "keywords": [
     "led"
   ],
   "author": "Alessandro Angelino <alessandro.angelino@arm.com>",
   "repository": {
-    "url": "git@github.com:ARMmbed/uvisor-blinky.git",
+    "url": "git@github.com:ARMmbed/uvisor-helloworld.git",
     "type": "git"
   },
-  "homepage": "https://github.com/ARMmbed/uvisor-blinky",
+  "homepage": "https://github.com/ARMmbed/uvisor-helloworld",
   "licenses": [
     {
       "url": "https://spdx.org/licenses/Apache-2.0",
@@ -18,8 +18,7 @@
     }
   ],
   "dependencies": {
-    "uvisor-lib": "ARMmbed/uvisor-lib",
-    "uvisor-sectest": "ARMmbed/uvisor-sectest",
+    "uvisor-secprint": "ARMmbed/uvisor-secprint",
     "mbed": "mbedmicro/mbed_private#dev_async_hal_yotta"
   },
   "targetDependencies": {},
