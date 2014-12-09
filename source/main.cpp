@@ -1,4 +1,5 @@
 #include <mbed.h>
+#include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
 
 /* enable uvisor */
