@@ -24,7 +24,7 @@ The resulting binary file will be located in `build/frdm-k64f-gcc/source/uvisor-
 
 On **OS X** and **Linux** (supposing your serial port is `/dev/ttyACM0`):
 ```bash
-screen /dev/ttyACM0   # Control-a D D to logout
+screen /dev/ttyACM0 9600 # Control-a D D to logout
 ```
 
 ### Troubleshooting
@@ -32,7 +32,11 @@ If you find any dependency problem during the build process, please make sure to
 ```bash
 yotta update --update-linked
 ```
-to update the dependecies of the linked modules, too.
+to update the dependecies of the linked modules, too. If the build process still fails, consider cleaning the build environment:
+```bash
+rm -rf build
+```
+and retrying the build procedure.
 
 If you have a JLink debugger, you can use
 ```bash
