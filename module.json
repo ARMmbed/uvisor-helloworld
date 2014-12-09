@@ -1,7 +1,7 @@
 {
   "name": "uvisor-helloworld",
   "version": "0.0.0",
-  "description": "Hello world example with security enabled",
+  "description": "Hello world example with uVisor enabled",
   "keywords": [],
   "author": "Alessandro Angelino <alessandro.angelino@arm.com>",
   "repository": {
