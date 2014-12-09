@@ -1,6 +1,9 @@
 #include <mbed.h>
 #include "box_secure_print.h"
 
+/* enable uvisor */
+UVISOR_SET_MODE(2);
+
 int main(void) {
     volatile int t;
     while(1) {

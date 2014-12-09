@@ -3,11 +3,10 @@
 #include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
 
-/* enable uvisor */
-UVISOR_SET_MODE(2);
+/* setup secret const section (Flash) */
 UVISOR_SECURE_CONST char g_password[] = "password";
 
-/* setup secret data section */
+/* setup secret data section (SRAM) */
 typedef struct {
 	RawSerial *serial;
 	uint8_t serial_data[sizeof(RawSerial)];

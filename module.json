@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "uvisor-lib": "ARMmbed/uvisor-lib",
-    "mbed": "mbedmicro/mbed_private#dev_async_hal_yotta"
+    "mbed": "ARMmbed/mbed-sdk"
   },
   "targetDependencies": {},
   "bin": "./source"
