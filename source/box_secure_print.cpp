@@ -39,5 +39,7 @@ void secure_print(void)
 	}
 
 	/* print secure string */
-	serial_printf("The password is: %s\n\r");
+	serial_printf("The password is: ");
+	serial_printf((const char *) g_password);
+	serial_printf("\n\r");
 }
