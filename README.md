@@ -38,10 +38,6 @@ rm -rf build
 ```
 and retrying the build procedure.
 
-If you have a JLink debugger, you can use
-```bash
-yotta debug source/uvisor-helloworld
-```
-to start the GDB server and connect to the device through the SWD interface. For failures or faults captured by the uVisor, a debugging message is printed through the SWO port. A JLink debugger could be used to show this output; the application is anyway halted at the print message.
+For failures or faults captured by the uVisor, a debugging message is printed through the SWO port. A JLink debugger could be used to show this output; the application is anyway halted at the print message.
 
 For more information on the debugging features of the uVisor visit [uvisor-lib](https://github.com/ARMmbed/uvisor).
