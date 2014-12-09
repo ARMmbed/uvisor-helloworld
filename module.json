@@ -2,9 +2,7 @@
   "name": "uvisor-helloworld",
   "version": "0.0.0",
   "description": "Hello world example with security enabled",
-  "keywords": [
-    "led"
-  ],
+  "keywords": [],
   "author": "Alessandro Angelino <alessandro.angelino@arm.com>",
   "repository": {
     "url": "git@github.com:ARMmbed/uvisor-helloworld.git",
@@ -18,7 +16,7 @@
     }
   ],
   "dependencies": {
-    "uvisor-secprint": "ARMmbed/uvisor-secprint",
+    "uvisor-lib": "ARMmbed/uvisor-lib",
     "mbed": "mbedmicro/mbed_private#dev_async_hal_yotta"
   },
   "targetDependencies": {},
