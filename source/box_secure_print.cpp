@@ -15,7 +15,11 @@ UVISOR_SECURE_BSS MyConfig g_data;
 
 /* create ACLs for secret data section */
 static const UvBoxAclItem g_box_acl[] = {
-	{&g_data, sizeof(g_data), 0}
+	{&g_data, sizeof(g_data), 0},
+	{UART0,   sizeof(*UART0), 0},
+	{MCG,     sizeof(*MCG),   0},
+	{SIM,     sizeof(*SIM),   0},
+	{PORTB,   sizeof(*PORTB), 0},
 };
 /* configure secure box compartnent */
 UVISOR_BOX_CONFIG(g_box_acl, UVISOR_BOX_STACK_SIZE);
