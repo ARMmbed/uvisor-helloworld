@@ -34,8 +34,10 @@ void serial_printf(const char *c)
 	}
 }
 
-/* print a secret message */
-void secure_print(void)
+/* print a secret message
+ *   if called directly, no security breach as it will run with the
+ *   privileges of the caller*/
+void __secure_print(void)
 {
 	/* initialize serial object on first use */
 	if(!g_data.serial) {
@@ -46,4 +48,13 @@ void secure_print(void)
 	serial_printf("The password is: ");
 	serial_printf((const char *) g_password);
 	serial_printf("\n\r");
+}
+
+/* FIXME implement security context transition */
+void secure_print(void)
+{
+	/* security transition happens here
+	 *   ensures that __secure_print() will run with the privileges
+	 *   of the secure_print box */
+	__secure_print();
 }
