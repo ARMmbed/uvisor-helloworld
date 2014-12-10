@@ -22,9 +22,15 @@ yotta build
 
 The resulting binary file will be located in `build/frdm-k64f-gcc/source/uvisor-helloworld/`. After flashing, you can observe the UART output on the USB serial port.
 
-On **OS X** and **Linux** (supposing your serial port is `/dev/ttyACM0`):
+On **OS X** (supposing your serial port is `/dev/tty.usbmodemfa142`):
 ```bash
 screen /dev/ttyACM0 9600 # Control-a D D to logout
+```
+On **Linux** (supposing your serial port is `/dev/ttyACM0`):
+```bash
+stty -F /dev/ttyACM0 9600 # this could be needed if the baud rate is not
+			  # correctly detected
+cat /dev/ttyACM0	  # Control-a D D to logout
 ```
 
 ### Troubleshooting
