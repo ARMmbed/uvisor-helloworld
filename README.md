@@ -28,9 +28,9 @@ screen /dev/ttyACM0 9600 # Control-a D D to logout
 ```
 On **Linux** (supposing your serial port is `/dev/ttyACM0`):
 ```bash
-stty -F /dev/ttyACM0 9600 # this could be needed if the baud rate is not
-			  # correctly detected
-cat /dev/ttyACM0	  # Control-a D D to logout
+# this could be needed if the baud rate is not correctly detected
+stty -F /dev/ttyACM0 9600
+cat /dev/ttyACM0
 ```
 
 ### Troubleshooting
