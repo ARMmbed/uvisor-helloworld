@@ -16,7 +16,7 @@
     }
   ],
   "dependencies": {
-    "uvisor-lib": "ARMmbed/uvisor-lib",
+    "uvisor-lib": "ARMmbed/uvisor-lib#~0.1.0",
     "mbed": "ARMmbed/mbed-sdk"
   },
   "targetDependencies": {},
