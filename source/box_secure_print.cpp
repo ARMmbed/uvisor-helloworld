@@ -34,7 +34,7 @@ static const UvBoxAclItem g_box_acl[] = {
 	{PORTB,   sizeof(*PORTB), 0},
 };
 /* configure secure box compartnent */
-UVISOR_BOX_CONFIG(g_box_acl, UVISOR_BOX_STACK_SIZE);
+UVISOR_BOX_CONFIG(secure_print, g_box_acl, UVISOR_BOX_STACK_SIZE);
 
 /* simple print function for the serial interface */
 void serial_printf(const char *c)
