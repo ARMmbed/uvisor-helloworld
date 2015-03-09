@@ -18,9 +18,9 @@ This is a yotta executable. You need the latest [yotta](https://github.com/ARMmb
 Assuming you have cloned this repository, move to its folder. Select target, install and build:
 ```bash
 cd /path/to/uvisor-helloworld
-yotta target frdm-k64f-gcc
-yotta install
-yotta build
+yt target frdm-k64f-gcc
+yt install
+yt build
 ```
 
 The resulting binary file will be located in `build/frdm-k64f-gcc/source/uvisor-helloworld/`. 
@@ -52,11 +52,11 @@ First, make sure you have the correct [driver](http://developer.mbed.org/handboo
 ### Troubleshooting
 If you find any dependency problem during the build process, please make sure to use the most up-to-date versions of the linked modules. You can always use:
 ```bash
-yotta update --update-linked
+yt update --update-linked
 ```
 to update the dependecies of the linked modules, too. If the build process still fails, consider cleaning the build environment:
 ```bash
-rm -rf build
+yt clean
 ```
 and retrying the build procedure.
 
