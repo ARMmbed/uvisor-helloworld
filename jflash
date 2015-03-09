@@ -1,0 +1,21 @@
+#!/bin/bash
+
+BUILD_DIR=./build
+FIRMWARE_IMAGE=`find $BUILD_DIR -iname *$1*.bin | head -n1`
+
+if [ "$FIRMWARE_IMAGE"="" ]; then
+	echo "error: unable to find *$1*.bin in the $BUILD_DIR directory"
+	exit 1
+fi
+
+exit 1
+
+printf "\nflashing $FIRMWARE_IMAGE ...\n\n"
+
+JLinkExe -Device MK64FN1M0XXX12 -if SWD<<__SCRIPT_FLASH
+h
+loadbin $FIRMWARE_IMAGE 0
+r
+g
+q
+__SCRIPT_FLASH
