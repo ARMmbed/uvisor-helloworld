@@ -1,14 +1,31 @@
 #!/bin/bash
 
 BUILD_DIR=./build
-FIRMWARE_IMAGE=`find $BUILD_DIR -iname *$1*.bin | head -n1`
 
+#
+# if no command line parameter is provided, print usage
+#
+if [ $# -ne 1 ]; then
+	printf "\nUsage: $0 blinky\n\n"
+	printf "       the string 'blinky' will result in flashing\n"
+	printf "       './build/frdm-k64f-gcc/ym/mbed/test/mbed-test-blinky.bin'\n\n"
+fi
+
+#
+# find firmware image in build directory
+#
+FIRMWARE_IMAGE=`find $BUILD_DIR -iname *$1*.bin | head -n1`
 if [ ! -s "$FIRMWARE_IMAGE" ]; then
 	echo "error: unable to find *$1*.bin in the $BUILD_DIR directory"
 	exit 1
 fi
 
+#
+# flash firmare image using segger JLink
+# https://www.segger.com/jlink-software.html
+#
 JLinkExe -Device MK64FN1M0XXX12 -if SWD<<__SCRIPT_FLASH
+r
 h
 loadbin $FIRMWARE_IMAGE 0
 r
