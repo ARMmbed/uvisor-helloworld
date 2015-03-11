@@ -26,7 +26,7 @@ typedef struct {
 UVISOR_SECURE_BSS MyConfig g_data;
 
 /* create ACLs for secret data section */
-static const UvBoxAclItem g_box_acl[] = {
+static const UvisorBoxAclItem g_box_acl[] = {
 	{&g_data, sizeof(g_data), 0},
 	{UART0,   sizeof(*UART0), 0},
 	{MCG,     sizeof(*MCG),   0},
@@ -53,7 +53,8 @@ void __secure_print(void)
 {
 	/* initialize serial object on first use */
 	if(!g_data.serial) {
-		g_data.serial = ::new((void *) &g_data.serial_data) RawSerial(USBTX, USBRX);
+		g_data.serial = ::new((void *) &g_data.serial_data)
+		                RawSerial(USBTX, USBRX);
 	}
 
 	/* print secure string */
