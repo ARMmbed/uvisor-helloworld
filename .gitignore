@@ -1,11 +1,9 @@
 # vim files
 *.sw*
 .vim.custom
+gdb.script
 
 # yotta build folders
 build
 yotta_targets
 yotta_modules
-
-# rules for flash, swo, gdb for target executable
-Makefile
