@@ -1,6 +1,7 @@
 # vim files
 *.sw*
 .vim.custom
+.yotta.json
 gdb.script
 
 # yotta build folders
