@@ -27,11 +27,11 @@ UVISOR_SECURE_BSS MyConfig g_data;
 
 /* create ACLs for secret data section */
 static const UvisorBoxAclItem g_box_acl[] = {
-	{&g_data, sizeof(g_data), 0},
-	{UART0,   sizeof(*UART0), 0},
-	{MCG,     sizeof(*MCG),   0},
-	{SIM,     sizeof(*SIM),   0},
-	{PORTB,   sizeof(*PORTB), 0},
+	{&g_data, sizeof(g_data), UVISOR_TACL_DEFAULT},
+	{UART0,   sizeof(*UART0), UVISOR_TACL_PERIPHERAL},
+	{MCG,     sizeof(*MCG),   UVISOR_TACL_PERIPHERAL},
+	{SIM,     sizeof(*SIM),   UVISOR_TACL_PERIPHERAL},
+	{PORTB,   sizeof(*PORTB), UVISOR_TACL_PERIPHERAL},
 };
 /* configure secure box compartnent */
 UVISOR_BOX_CONFIG(secure_print, g_box_acl, UVISOR_BOX_STACK_SIZE);
