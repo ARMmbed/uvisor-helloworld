@@ -59,10 +59,6 @@ endif
 
 .PHONY: all setup firmware relase flash erase reset gdb gdbserver swo clean
 
-test:
-	echo $(GDB_DEBUG_SYMBOLS_FILE)
-	echo $(GDB_DEBUG_UVISOR)
-
 all: release
 
 setup: clean
@@ -100,7 +96,7 @@ swo: reset
 	$(JLINK_VIEWER) $(JLINK_PARAM) -itmmask $(JLINK_VIEWER_MASK) $(JLINK_SWO_PARAM)
 
 $(TARGET_BIN):
-	yotta build
+	yotta build -d
 	@$(PREFIX)size $(TARGET)
 
 clean:
