@@ -55,6 +55,7 @@ void __secure_print(void)
 	if(!g_data.serial) {
 		g_data.serial = ::new((void *) &g_data.serial_data)
 		                RawSerial(USBTX, USBRX);
+		g_data.serial->baud(115200);
 	}
 
 	/* print secure string */
