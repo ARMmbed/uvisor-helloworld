@@ -21,6 +21,7 @@ define __SCRIPT_GDB
 	monitor reset
 	monitor halt
 	monitor speed 1000
+	monitor loadbin $(TARGET_BIN) 0
 	monitor flash device = $(CPU)
 	monitor SWO Start 0 6000000
 	load $(TARGET)
