@@ -47,11 +47,21 @@ JLINK_VIEWER:=$(SEGGER)JLinkSWOViewer
 #
 include Makefile.scripts
 
+# check if uvisor symbol file can be read - add to symbols GDB config if present
+GDB_DEBUG_SYMBOLS_FILE:=$(wildcard ../uvisor*/k64f/uvisor/k64f_uvisor.elf)
+ifneq ("$(GDB_DEBUG_SYMBOLS_FILE)","")
+	GDB_DEBUG_UVISOR:=add-symbol-file $(GDB_DEBUG_SYMBOLS_FILE) uvisor_init
+endif
+
 #
 # build targets
 #
 
 .PHONY: all setup firmware relase flash erase reset gdb gdbserver swo clean
+
+test:
+	echo $(GDB_DEBUG_SYMBOLS_FILE)
+	echo $(GDB_DEBUG_UVISOR)
 
 all: release
 
@@ -80,8 +90,11 @@ gdb.script: firmware $(TARGET)
 gdb: gdb.script
 	$(GDB) -x $<
 
+gdbtui: gdb.script
+	$(GDB) -tui -x $<
+
 gdbserver:
-	$(JLINK_SERVER) JLinkGDBServer $(JLINK_PARAM) $(APP_JLINK_PARAM)
+	$(JLINK_SERVER) $(JLINK_PARAM) $(APP_JLINK_PARAM)
 
 swo: reset
 	$(JLINK_VIEWER) $(JLINK_PARAM) -itmmask $(JLINK_VIEWER_MASK) $(JLINK_SWO_PARAM)
