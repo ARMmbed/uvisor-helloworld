@@ -57,16 +57,16 @@ endif
 # build targets
 #
 
-.PHONY: all setup firmware relase flash erase reset gdb gdbserver swo clean
+.PHONY: all setup firmware relase flash erase reset gdb gdbtui gdbserver swo clean
 
 all: release
 
-setup: clean
+setup:
 	yotta target frdm-k64f-gcc
 
 firmware: $(TARGET_BIN)
 
-release: setup
+release: clean setup
 	yotta build -r
 	@$(PREFIX)size $(TARGET)
 
@@ -95,7 +95,7 @@ gdbserver:
 swo: reset
 	$(JLINK_VIEWER) $(JLINK_PARAM) -itmmask $(JLINK_VIEWER_MASK) $(JLINK_SWO_PARAM)
 
-$(TARGET_BIN):
+$(TARGET_BIN): setup
 	yotta build -d
 	@$(PREFIX)size $(TARGET)
 
