@@ -5,10 +5,10 @@
   "keywords": [],
   "author": "Alessandro Angelino <alessandro.angelino@arm.com>",
   "repository": {
-    "url": "git@github.com:ARMmbed/uvisor-helloworld.git",
+    "url": "git@github.com:ARMmbed/uvisor-helloworld-private.git",
     "type": "git"
   },
-  "homepage": "https://github.com/ARMmbed/uvisor-helloworld",
+  "homepage": "https://github.com/ARMmbed/uvisor-helloworld-private",
   "licenses": [
     {
       "url": "https://spdx.org/licenses/Apache-2.0",
@@ -16,8 +16,8 @@
     }
   ],
   "dependencies": {
-    "uvisor-lib": "ARMmbed/uvisor-lib#~0.1.7",
-    "mbed": "ARMmbed/mbed-sdk"
+    "uvisor-lib": "ARMmbed/uvisor-lib-private#~0.1.7",
+    "mbed": "ARMmbed/mbed-sdk-private"
   },
   "targetDependencies": {},
   "bin": "./source"
