@@ -90,15 +90,15 @@ with the debug option enabled. This process is described in the [uVisor
 documentation](https://github.com/ARMmbed/uvisor) and is here reported briefly:
 ```bash
 # assuming this is your code tree:
-# ~/code
+# ~/code/
 #   |
-#   `- my_project
+#   `- my_project/
 #   |
-#   `- uvisor
+#   `- uvisor/
 #      |
-#      `- release
+#      `- release/
 #      |
-#      `- k64f/uvisor
+#      `- k64f/uvisor/
 
 # cd to uvisor
 cd ~/code/uvisor/k64f/uvisor
