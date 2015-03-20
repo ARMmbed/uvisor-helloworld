@@ -87,7 +87,8 @@ on the same serial port of the uvisor-helloworld application.
 Further debug messages are disabled by default. If you want to enable them, you
 need to build a new version of uvisor-lib starting from the uVisor source code,
 with the debug option enabled. This process is described in the [uVisor
-documentation](https://github.com/ARMmbed/uvisor) and is here reported briefly:
+documentation](https://github.com/ARMmbed/uvisor-private) and is here reported
+briefly:
 ```bash
 # assuming this is your code tree:
 # ~/code/
