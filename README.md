@@ -11,10 +11,10 @@ Currently only the following configuration is supported:
 
 This example relies on the security features provided by the uVisor yotta
 module, called uvisor-lib. Refer to its
-[documentation](https://github.com/ARMmbed/uvisor-lib) for
-implementation-specific details. Please note that the official documentation
-for the uVisor, found [here](https://github.com/ARMmbed/uvisor), describes the
-higher level security model, instead.
+[documentation](https://github.com/ARMmbed/uvisor-lib-private) for
+implementation-specific details. Please note that the [official
+documentation](https://github.com/ARMmbed/uvisor-private) for the uVisor
+describes the higher level security model, instead.
 
 ### HowTo
 
@@ -22,21 +22,19 @@ higher level security model, instead.
 
 This is a yotta executable. You need the latest
 [yotta](https://github.com/ARMmbed/yotta) release version (latest tested:
-0.0.40) and all of its dependencies. See also the [yotta
-documentation](http://armmbed.github.io/yotta/) for further details about the
+0.1.0) and all of its dependencies. See also the [yotta
+documentation](http://docs.yottabuild.org/) for further details about the
 installation and the build process.
 
-Assuming you have cloned this repository, move to its folder. Select target,
-install and build:
+First, select the correct targetl and build:
 ```bash
-cd /path/to/uvisor-helloworld
+cd uvisor-helloworld
 yt target frdm-k64f-gcc
-yt install
 yt build
 ```
 
 The resulting binary file will be located in
-`build/frdm-k64f-gcc/source/uvisor-helloworld/`. 
+`build/frdm-k64f-gcc/source/uvisor-helloworld/`.
 
 #### Flash
 
@@ -51,22 +49,23 @@ output on the USB serial port.
 ##### **OS X**
 Assuming your serial port is `/dev/tty.usbmodemfa142`:
 ```bash
-screen /dev/tty.usbmodemfa142 9600 # Control-a D D to logout
+screen /dev/tty.usbmodemfa142 115200 # Control-a D D to logout
 ```
 
 ##### **Linux**
 Assuming your serial port is `/dev/ttyACM0`:
 ```bash
 # this could be needed if the baud rate is not correctly detected
-stty -F /dev/ttyACM0 9600
+stty -F /dev/ttyACM0 115200
 cat /dev/ttyACM0
 ```
+
 ##### **Windows**
 First, make sure you have the correct
 [driver](http://developer.mbed.org/handbook/Windows-serial-configuration)
-installed. You also need a terminal application: We suggest
+installed for the serial port. You also need a terminal application: We suggest
 [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html). The
-port should be `COMx` (`COM1`, for example), the baud rate is 9600.
+port should be `COMx` (`COM1`, for example), the baud rate is 115200.
 
 ### Troubleshooting
 If you find any dependency problem during the build process, please make sure
@@ -81,9 +80,37 @@ yt clean
 ```
 and retrying the build procedure.
 
+### Debugging
 For failures or faults captured by the uVisor, a debugging message is printed
-through the SWO port. A JLink debugger could be used to show this output; the
-application is anyway halted at the print message.
+on the same serial port of the uvisor-helloworld application.
 
-For more information on the debugging features of the uVisor visit
-[uvisor](https://github.com/ARMmbed/uvisor).
+Further debug messages are disabled by default. If you want to enable them, you
+need to build a new version of uvisor-lib starting from the uVisor source code,
+with the debug option enabled. This process is described in the [uVisor
+documentation](https://github.com/ARMmbed/uvisor) and is here reported briefly:
+```bash
+# assuming this is your code tree:
+# ~/code
+#   |
+#   `- my_project
+#   |
+#   `- uvisor
+#      |
+#      `- release
+#      |
+#      `- k64f/uvisor
+
+# cd to uvisor
+cd ~/code/uvisor/k64f/uvisor
+
+# build a debug release
+make OPT= clean release
+
+# link the newly created release to yotta
+cd ../../release
+yt link
+
+# link your project to the newly created release
+cd ~/code/my_project
+yt link uvisor-lib
+```
