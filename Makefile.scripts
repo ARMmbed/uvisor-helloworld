@@ -28,6 +28,7 @@ define __SCRIPT_GDB
 	file $(TARGET)
 	$(GDB_DEBUG_UVISOR)
 	b main
+	b vmpu_init
 endef
 export __SCRIPT_GDB
 
