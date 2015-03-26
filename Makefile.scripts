@@ -20,19 +20,16 @@ define __SCRIPT_GDB
 	monitor endian little
 	monitor reset
 	monitor halt
+	monitor semihosting enable
 	monitor speed 1000
 	monitor loadbin $(TARGET_BIN) 0
 	monitor flash device = $(CPU)
-	monitor SWO Start 0 6000000
 	load $(TARGET)
 	file $(TARGET)
 	$(GDB_DEBUG_UVISOR)
 	b main
 endef
 export __SCRIPT_GDB
-
-#	monitor SWO EnableTarget $(AUXHFRCO_FREQ) 0 $(JLINK_VIEWER_MASK) 0
-#	monitor SWO Start
 
 define __SCRIPT_FLASH
 	r

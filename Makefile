@@ -26,7 +26,6 @@ JLINK:=$(SEGGER)JLinkExe
 JLINK_VIEWER_MASK:=0x7
 JLINK_PARAM:=-Device $(CPU) -if SWD
 AUXHFRCO_FREQ:=0
-JLINK_SWO_PARAM:=
 
 #
 #
@@ -40,7 +39,6 @@ DEBUG_HOST:=localhost:2331
 TARGET:=./build/$(TARGET)/source/$(PROJECT)
 TARGET_BIN:=$(TARGET).bin
 JLINK_SERVER:=$(SEGGER)JLinkGDBServer
-JLINK_VIEWER:=$(SEGGER)JLinkSWOViewer
 
 #
 # add inline files for debugging / flashing
@@ -57,7 +55,7 @@ endif
 # build targets
 #
 
-.PHONY: all setup firmware relase flash erase reset gdb gdbtui gdbserver swo clean
+.PHONY: all setup firmware relase flash erase reset gdb gdbtui gdbserver clean
 
 all: release
 
@@ -91,9 +89,6 @@ gdbtui: gdb.script
 
 gdbserver:
 	$(JLINK_SERVER) $(JLINK_PARAM) $(APP_JLINK_PARAM)
-
-swo: reset
-	$(JLINK_VIEWER) $(JLINK_PARAM) -itmmask $(JLINK_VIEWER_MASK) $(JLINK_SWO_PARAM)
 
 $(TARGET_BIN): setup
 	yotta build -d
