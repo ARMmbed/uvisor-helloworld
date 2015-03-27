@@ -30,9 +30,6 @@ static const UvisorBoxAclItem g_box_acl[] = {
 	{(void *) &g_password, sizeof(g_password), UVISOR_TACLDEF_SECURE_CONST},
 	{&g_data,              sizeof(g_data),     UVISOR_TACLDEF_SECURE_BSS},
 	{UART0,                sizeof(*UART0),     UVISOR_TACLDEF_PERIPH},
-	{MCG,                  sizeof(*MCG),       UVISOR_TACLDEF_PERIPH},
-	{SIM,                  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
-	{PORTB,                sizeof(*PORTB),     UVISOR_TACLDEF_PERIPH},
 };
 /* configure secure box compartnent */
 UVISOR_BOX_CONFIG(secure_print_box, g_box_acl, UVISOR_BOX_STACK_SIZE);

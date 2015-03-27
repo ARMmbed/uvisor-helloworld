@@ -14,8 +14,19 @@
 #include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
 
+
+/* create ACLs for secret data section */
+static const UvisorBoxAclItem g_main_acl[] = {
+	{MCG,                  sizeof(*MCG),       UVISOR_TACLDEF_PERIPH},
+	{SIM,                  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
+	{PORTA,                sizeof(*PORTA),     UVISOR_TACLDEF_PERIPH},
+	{PORTB,                sizeof(*PORTB),     UVISOR_TACLDEF_PERIPH},
+	{PORTC,                sizeof(*PORTC),     UVISOR_TACLDEF_PERIPH},
+	{PIT,                  sizeof(*PIT),       UVISOR_TACLDEF_PERIPH},
+};
+
 /* enable uvisor */
-UVISOR_SET_MODE(2);
+UVISOR_SET_MODE_ACL(2, g_main_acl);
 
 int main(void) {
     volatile int t;
