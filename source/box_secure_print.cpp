@@ -67,6 +67,10 @@ void secure_print(void)
 {
 	/* security transition happens here
 	 *   ensures that __secure_print() will run with the privileges
-	 *   of the secure_print box */
-    secure_gateway(secure_print_box, __secure_print, 0, 0, 0, 0);
+	 *   of the secure_print box - if uvisor-mode */
+	if(__uvisor_mode)
+		secure_gateway(secure_print_box, __secure_print, 0, 0, 0, 0);
+	else
+		/* fallback for disabled uvisor */
+		__secure_print();
 }

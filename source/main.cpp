@@ -26,7 +26,7 @@ static const UvisorBoxAclItem g_main_acl[] = {
 };
 
 /* enable uvisor */
-UVISOR_SET_MODE_ACL(2, g_main_acl);
+UVISOR_SET_MODE_ACL(0, g_main_acl);
 
 int main(void) {
     volatile int t;
