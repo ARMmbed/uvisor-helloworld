@@ -28,15 +28,16 @@ static const UvisorBoxAclItem g_main_acl[] = {
 UVISOR_SET_MODE_ACL(2, g_main_acl);
 
 int main(void) {
-    volatile int t;
-
     /* initialize the secure timers */
     secure_timer_init();
 
     while(1)
     {
-        for (t = 0; t < 2000000; t++);
-        secure_print();
+        if(g_polling)
+        {
+            secure_print();
+            g_polling = 0;
+        }
     }
 
     return 0;

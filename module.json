@@ -19,7 +19,7 @@
   "dependencies": {
     "uvisor-lib": "ARMmbed/uvisor-lib-private#~0.3.0",
     "mbed": "ARMmbed/mbed-sdk-private",
-    "mbed-hal-k64f": "ARMMbed/mbed-hal-k64f-private"
+    "mbed-hal-ksdk-mcu": "ARMMbed/mbed-hal-ksdk-mcu-private"
   },
   "targetDependencies": {},
   "bin": "./source"
