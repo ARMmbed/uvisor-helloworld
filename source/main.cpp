@@ -33,11 +33,12 @@ int main(void) {
 
     while(1)
     {
-        if(g_polling)
+        while(!g_polling)
         {
-            secure_print();
-            g_polling = 0;
+            __WFE();
         }
+        secure_print();
+        g_polling = 0;
     }
 
     return 0;

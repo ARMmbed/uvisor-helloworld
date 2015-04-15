@@ -66,7 +66,10 @@ void secure_timer1_handler(void)
     /* Note: g_data.sync_timer is protected by uVisor */
     serial_printf("  Synchronizing timers...\n\r");
     g_data.sync_timer = 0;
-    while(g_data.sync_timer != SYNC_TIMER_VALUE);
+    while(g_data.sync_timer != SYNC_TIMER_VALUE)
+    {
+        __WFE();
+    }
     g_data.sync_timer = 0;
     serial_printf("  ...timers synchronized\n\r");
 
