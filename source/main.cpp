@@ -14,7 +14,6 @@
 #include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
 
-
 /* create ACLs for secret data section */
 static const UvisorBoxAclItem g_main_acl[] = {
 	{MCG,                  sizeof(*MCG),       UVISOR_TACLDEF_PERIPH},
@@ -29,10 +28,17 @@ static const UvisorBoxAclItem g_main_acl[] = {
 UVISOR_SET_MODE_ACL(2, g_main_acl);
 
 int main(void) {
-    volatile int t;
-    while(1) {
-        for (t = 0; t < 2000000; t++);
+    /* initialize the secure timers */
+    secure_timer_init();
+
+    while(1)
+    {
+        while(!g_polling)
+        {
+            __WFE();
+        }
         secure_print();
+        g_polling = 0;
     }
 
     return 0;
