@@ -17,7 +17,7 @@
     }
   ],
   "dependencies": {
-    "uvisor-lib": "ARMmbed/uvisor-lib-private#~0.3.0",
+    "uvisor-lib": "ARMmbed/uvisor-lib-private#~0.4.0",
     "mbed": "ARMmbed/mbed-sdk-private",
     "mbed-hal-ksdk-mcu": "ARMMbed/mbed-hal-ksdk-mcu-private"
   },
