@@ -116,11 +116,10 @@ extern "C" void __secure_timer_init(void)
 
     /* enable clock for PIT module */
     CLOCK_SYS_EnablePitClock(0);
-    /* SIM_HAL_EnablePitClock(SIM_BASE, 0); */
 
     /* turn on the PIT module (no freeze during debug) */
     PIT_HAL_Enable(PIT_BASE);
-    PIT_HAL_SetTimerRunInDebugCmd(PIT_BASE, true);
+    PIT_HAL_SetTimerRunInDebugCmd(PIT_BASE, false);
 
     /* PIT module clock */
     pit_src_clk  = CLOCK_SYS_GetPitFreq(0);
@@ -163,7 +162,7 @@ extern "C" void __secure_timer_init(void)
 void secure_timer_init(void)
 {
     if(__uvisor_mode)
-        secure_gateway(secure_print_box, __secure_timer_init, 0, 0, 0, 0);
+        secure_gateway(secure_print_box, __secure_timer_init);
     else
         /* fallback for disabled uvisor */
         __secure_timer_init();
@@ -194,7 +193,7 @@ void secure_print(void)
      *   ensures that __secure_print() will run with the privileges
      *   of the secure_print box - if uvisor-mode */
     if(__uvisor_mode)
-        secure_gateway(secure_print_box, __secure_print, 0, 0, 0, 0);
+        secure_gateway(secure_print_box, __secure_print);
     else
         /* fallback for disabled uvisor */
         __secure_print();
