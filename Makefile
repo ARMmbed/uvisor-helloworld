@@ -57,18 +57,20 @@ endif
 
 .PHONY: all setup firmware relase flash erase reset gdb gdbtui gdbserver clean
 
-all: release
+all: debug flash
 
 setup:
 	yotta target frdm-k64f-gcc
 
-firmware: $(TARGET_BIN)
+debug:
+	yotta build -d
+	@$(PREFIX)size $(TARGET)
 
-release: clean setup
+release:
 	yotta build -r
 	@$(PREFIX)size $(TARGET)
 
-flash: firmware
+flash: $(TARGET_BIN)
 	@echo "$$__SCRIPT_FLASH" | $(JLINK) $(JLINK_PARAM)
 	@$(PREFIX)size $(TARGET)
 
@@ -90,10 +92,8 @@ gdbtui: gdb.script
 gdbserver:
 	$(JLINK_SERVER) $(JLINK_PARAM) $(APP_JLINK_PARAM)
 
-$(TARGET_BIN): setup
-	yotta build -d
-	@$(PREFIX)size $(TARGET)
+$(TARGET_BIN): debug
 
-clean:
+clean: setup
 	rm -f gdb.script
 	yotta clean
