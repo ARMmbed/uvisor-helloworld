@@ -13,6 +13,7 @@
 #include <mbed.h>
 #include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
+#include "benchmark.h"
 
 /* create ACLs for secret data section */
 static const UvisorBoxAclItem g_main_acl[] = {
@@ -29,6 +30,22 @@ static const UvisorBoxAclItem g_main_acl[] = {
 UVISOR_SET_MODE_ACL(2, g_main_acl);
 
 int main(void) {
+    /************************************************************
+     * BENCHMARK
+     ************************************************************/
+    /* call mock function with and without secure gateway */
+    uint32_t t1 = benchmark_mock(secure);
+    uint32_t t2 = benchmark_mock(unsecure);
+
+    /* assemble message string */
+    char buffer[60];
+    if(t1)
+        sprintf(buffer, "Function call overhead: %luns\n\r", t1 - t2);
+    else
+        sprintf(buffer, "Unable to provide measurement\n\r");
+    secure_print_msg(buffer, 60);
+    /************************************************************/
+
     /* initialize the secure timers */
     secure_timer_init();
 
