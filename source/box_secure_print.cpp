@@ -17,6 +17,9 @@
 #include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
 
+#define TIMER1_PERIOD_US 1000000U
+#define TIMER2_PERIOD_US 2000000U
+
 #define SYNC_TIMER_VALUE 42
 
 /* setup secret const section (Flash) */
@@ -105,7 +108,7 @@ void secure_timer2_handler(void)
 extern "C" void __secure_timer_init(void)
 {
     uint64_t pit_src_clk;
-    uint32_t cnt_us, cnt;
+    uint32_t cnt;
 
     /* initialize serial object on first use */
     if(!g_data.serial) {
@@ -117,7 +120,7 @@ extern "C" void __secure_timer_init(void)
     /* enable clock for PIT module */
     CLOCK_SYS_EnablePitClock(0);
 
-    /* turn on the PIT module (no freeze during debug) */
+    /* turn on the PIT module (freeze during debug) */
     PIT_HAL_Enable(PIT_BASE);
     PIT_HAL_SetTimerRunInDebugCmd(PIT_BASE, false);
 
@@ -133,8 +136,7 @@ extern "C" void __secure_timer_init(void)
     uvisor_enable_irq(PIT1_IRQn);
 
     /* configure registers */
-    cnt_us = 1000000U /* us */;
-    cnt = (uint32_t) (cnt_us * pit_src_clk / 1000000U - 1U);
+    cnt = (uint32_t) (TIMER1_PERIOD_US * pit_src_clk / 1000000U - 1U);
     PIT_HAL_SetTimerPeriodByCount(PIT_BASE, 1, cnt);
     PIT_HAL_StartTimer(PIT_BASE, 1);
 
@@ -147,8 +149,7 @@ extern "C" void __secure_timer_init(void)
     uvisor_enable_irq(PIT2_IRQn);
 
     /* configure registers */
-    cnt_us = 2000000U /* us */;
-    cnt = (uint32_t) (cnt_us * pit_src_clk / 1000000U - 1U);
+    cnt = (uint32_t) (TIMER2_PERIOD_US * pit_src_clk / 1000000U - 1U);
     PIT_HAL_SetTimerPeriodByCount(PIT_BASE, 2, cnt);
     PIT_HAL_StartTimer(PIT_BASE, 2);
 
@@ -171,7 +172,7 @@ void secure_timer_init(void)
 /* print a secret message
  *   if called directly, no security breach as it will run with the
  *   privileges of the caller*/
-extern "C" void __secure_print(void)
+extern "C" void __secure_print_pwd(void)
 {
     /* initialize serial object on first use */
     if(!g_data.serial) {
