@@ -80,13 +80,13 @@ erase:
 reset:
 	@echo "$$__SCRIPT_RESET" | $(JLINK) $(JLINK_PARAM)
 
-gdb.script: firmware $(TARGET)
+gdb.script:
 	@echo "$$__SCRIPT_GDB" > $@
 
-gdb: gdb.script
+gdb: gdb.script $(TARGET_BIN)
 	$(GDB) -x $<
 
-gdbtui: gdb.script
+gdbtui: gdb.script $(TARGET_BIN)
 	$(GDB) -tui -x $<
 
 gdbserver:
