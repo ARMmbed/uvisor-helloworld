@@ -46,6 +46,16 @@ UVISOR_BOX_CONFIG(secure_print_box, g_box_acl, UVISOR_BOX_STACK_SIZE);
 volatile int g_polling;
 
 /* simple print function for the serial interface */
+void serial_printf(char *c)
+{
+    int data;
+
+    while ((data = (*c++)) != 0) {
+        g_data.serial->putc(data);
+    }
+}
+
+/* simple print function for the serial interface */
 void serial_printf(const char *c)
 {
     int data;
@@ -188,14 +198,52 @@ extern "C" void __secure_print_pwd(void)
 }
 
 /* FIXME implement security context transition */
-void secure_print(void)
+void secure_print_pwd(void)
 {
     /* security transition happens here
      *   ensures that __secure_print() will run with the privileges
      *   of the secure_print box - if uvisor-mode */
     if(__uvisor_mode)
-        secure_gateway(secure_print_box, __secure_print);
+        secure_gateway(secure_print_box, __secure_print_pwd);
     else
         /* fallback for disabled uvisor */
-        __secure_print();
+        __secure_print_pwd();
+}
+
+/* print a custom message
+ *   if called directly, no security breach as it will run with the
+ *   privileges of the caller*/
+extern "C" void __secure_print_msg(char *buffer, int len)
+{
+    int i;
+
+    /* initialize serial object on first use */
+    if(!g_data.serial) {
+        g_data.serial = ::new((void *) &g_data.serial_data)
+                        RawSerial(USBTX, USBRX);
+        g_data.serial->baud(115200);
+    }
+
+    /* print message if secure*/
+    for(i = 0; i < len; i++)
+    {
+        if(buffer[i] == '\0')
+        {
+            serial_printf(buffer);
+            return;
+        }
+    }
+}
+
+/* FIXME implement security context transition */
+void secure_print_msg(char *buffer, int len)
+{
+    /* security transition happens here
+     *   ensures that __secure_print() will run with the privileges
+     *   of the secure_print box - if uvisor-mode */
+    if(__uvisor_mode)
+        secure_gateway(secure_print_box, __secure_print_msg, buffer, len);
+    else
+        /* fallback for disabled uvisor */
+        __secure_print_msg(buffer, len);
 }

@@ -16,6 +16,7 @@
 extern volatile int g_polling;
 
 void secure_timer_init(void);
-void secure_print(void);
+void secure_print_msg(char *buffer, int len);
+void secure_print_pwd(void);
 
 #endif/*__BOX_SECURE_PRINT_H__*/
