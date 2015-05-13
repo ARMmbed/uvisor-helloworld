@@ -14,7 +14,7 @@
 #include <uvisor-lib/uvisor-lib.h>
 #include "mbed-hal-ksdk-mcu/TARGET_KSDK_CODE/hal/pit/fsl_pit_hal.h"
 #include "mbed-hal-ksdk-mcu/TARGET_KSDK_CODE/drivers/clock/fsl_clock_manager.h"
-#include "benchmark.h"
+#include "box_benchmark.h"
 
 #define BENCHMARK_TIMER_LDVAL 0xFFFFFFFFU
 

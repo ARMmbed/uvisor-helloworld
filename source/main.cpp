@@ -13,7 +13,7 @@
 #include <mbed.h>
 #include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
-#include "benchmark.h"
+#include "box_benchmark.h"
 
 /* create ACLs for secret data section */
 static const UvisorBoxAclItem g_main_acl[] = {

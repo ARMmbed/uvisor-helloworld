@@ -10,8 +10,8 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#ifndef __BENCHMARK_H__
-#define __BENCHMARK_H__
+#ifndef __BOX_BENCHMARK_H__
+#define __BOX_BENCHMARK_H__
 
 typedef enum {
     secure = 0,
@@ -20,4 +20,4 @@ typedef enum {
 
 uint32_t benchmark_mock(TBenchmarkMode mode);
 
-#endif/*__BENCHMARK_H__*/
+#endif/*__BOX_BENCHMARK_H__*/
