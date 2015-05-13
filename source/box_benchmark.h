@@ -10,13 +10,14 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#ifndef __BOX_SECURE_PRINT_H__
-#define __BOX_SECURE_PRINT_H__
+#ifndef __BOX_ENCHMARK_H__
+#define __BOX_ENCHMARK_H__
 
-extern volatile int g_polling;
+typedef enum {
+    secure = 0,
+    unsecure
+} TBenchmarkMode;
 
-void secure_timer_init(void);
-void secure_print_msg(char *buffer, int len);
-void secure_print_pwd(void);
+uint32_t benchmark_mock(TBenchmarkMode mode);
 
-#endif/*__BOX_SECURE_PRINT_H__*/
+#endif/*__BOX_BENCHMARK_H__*/
