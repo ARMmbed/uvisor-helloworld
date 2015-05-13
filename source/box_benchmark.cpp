@@ -16,6 +16,10 @@
 
 /* create ACLs for secret data section */
 static const UvisorBoxAclItem g_box_acl[] = {
+    {UART1,                sizeof(*UART1),     UVISOR_TACLDEF_PERIPH},
+    {UART2,                sizeof(*UART2),     UVISOR_TACLDEF_PERIPH},
+    {UART3,                sizeof(*UART3),     UVISOR_TACLDEF_PERIPH},
+    {UART4,                sizeof(*UART4),     UVISOR_TACLDEF_PERIPH},
 };
 
 /* configure secure box compartnent */
