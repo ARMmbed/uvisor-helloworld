@@ -201,7 +201,7 @@ extern "C" void __secure_print_pwd(void)
 void secure_print_pwd(void)
 {
     /* security transition happens here
-     *   ensures that __secure_print() will run with the privileges
+     *   ensures that __secure_print_pwd() will run with the privileges
      *   of the secure_print box - if uvisor-mode */
     if(__uvisor_mode)
         secure_gateway(secure_print_box, __secure_print_pwd);
@@ -213,10 +213,8 @@ void secure_print_pwd(void)
 /* print a custom message
  *   if called directly, no security breach as it will run with the
  *   privileges of the caller*/
-extern "C" void __secure_print_msg(char *buffer, int len)
+extern "C" void __secure_print_msg(char *buffer)
 {
-    int i;
-
     /* initialize serial object on first use */
     if(!g_data.serial) {
         g_data.serial = ::new((void *) &g_data.serial_data)
@@ -224,26 +222,29 @@ extern "C" void __secure_print_msg(char *buffer, int len)
         g_data.serial->baud(115200);
     }
 
-    /* print message if secure*/
-    for(i = 0; i < len; i++)
-    {
-        if(buffer[i] == '\0')
-        {
-            serial_printf(buffer);
-            return;
-        }
-    }
+    /* print custom string */
+    serial_printf(buffer);
 }
 
 /* FIXME implement security context transition */
 void secure_print_msg(char *buffer, int len)
 {
-    /* security transition happens here
-     *   ensures that __secure_print() will run with the privileges
-     *   of the secure_print box - if uvisor-mode */
-    if(__uvisor_mode)
-        secure_gateway(secure_print_box, __secure_print_msg, buffer, len);
-    else
-        /* fallback for disabled uvisor */
-        __secure_print_msg(buffer, len);
+    int i;
+
+    /* check buffer in the context of the caller before the secure gateway */
+    for(i = 0; i < len; i++)
+    {
+        if(buffer[i] == '\0')
+        {
+            /* security transition happens here
+             *   ensures that __secure_print_msg() will run with the privileges
+             *   of the secure_print box - if uvisor-mode */
+            if(__uvisor_mode)
+                secure_gateway(secure_print_box, __secure_print_msg, buffer);
+            else
+                /* fallback for disabled uvisor */
+                __secure_print_msg(buffer);
+            return;
+        }
+    }
 }
