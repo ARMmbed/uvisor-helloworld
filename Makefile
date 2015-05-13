@@ -63,11 +63,11 @@ setup:
 	yotta target frdm-k64f-gcc
 
 debug:
-	yotta build -d
+	yotta build -d -- -j8
 	@$(PREFIX)size $(TARGET)
 
 release:
-	yotta build -r
+	yotta build -r -- -j8
 	@$(PREFIX)size $(TARGET)
 
 flash: $(TARGET_BIN)
