@@ -32,6 +32,7 @@ AUXHFRCO_FREQ:=0
 # GDB configuration
 GDB:=$(PREFIX)gdb
 DEBUG_HOST:=localhost:2331
+OBJDUMP:=$(PREFIX)objdump
 
 #
 # derived variables
@@ -64,13 +65,15 @@ setup:
 
 debug:
 	yotta build -d -- -j8
+	$(OBJDUMP) -d $(TARGET) > $(PROJECT).asm
 	@$(PREFIX)size $(TARGET)
 
 release:
 	yotta build -r -- -j8
+	$(OBJDUMP) -d $(TARGET) > $(PROJECT).asm
 	@$(PREFIX)size $(TARGET)
 
-flash: $(TARGET_BIN)
+flash:
 	@echo "$$__SCRIPT_FLASH" | $(JLINK) $(JLINK_PARAM)
 	@$(PREFIX)size $(TARGET)
 
@@ -95,5 +98,5 @@ gdbserver:
 $(TARGET_BIN): debug
 
 clean: setup
-	rm -f gdb.script
+	rm -f gdb.script $(PROJECT).asm
 	yotta clean
