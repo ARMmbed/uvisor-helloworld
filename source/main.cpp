@@ -19,7 +19,6 @@
 static const UvisorBoxAclItem g_main_acl[] = {
     {MCG,                  sizeof(*MCG),       UVISOR_TACLDEF_PERIPH},
     {SIM,                  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
-    {(void *) 0x40048000,  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
     {PORTA,                sizeof(*PORTA),     UVISOR_TACLDEF_PERIPH},
     {PORTB,                sizeof(*PORTB),     UVISOR_TACLDEF_PERIPH},
     {PORTC,                sizeof(*PORTC),     UVISOR_TACLDEF_PERIPH},
