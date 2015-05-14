@@ -83,10 +83,10 @@ reset:
 gdb.script:
 	@echo "$$__SCRIPT_GDB" > $@
 
-gdb: gdb.script $(TARGET_BIN)
+gdb: gdb.script
 	$(GDB) -x $<
 
-gdbtui: gdb.script $(TARGET_BIN)
+gdbtui: gdb.script
 	$(GDB) -tui -x $<
 
 gdbserver:
