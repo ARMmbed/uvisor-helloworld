@@ -10,14 +10,11 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#ifndef __BOX_ENCHMARK_H__
-#define __BOX_ENCHMARK_H__
+#ifndef __TIMER_H__
+#define __TIMER_H__
 
-typedef enum {
-    secure = 0,
-    unsecure
-} TBenchmarkMode;
+extern volatile int g_timer_polling;
 
-uint32_t benchmark_mock(TBenchmarkMode mode);
+void timer_init(void);
 
-#endif/*__BOX_BENCHMARK_H__*/
+#endif/*__TIMER_H__*/
