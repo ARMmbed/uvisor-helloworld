@@ -2,11 +2,11 @@
 
 This is a `Hello World!` yotta executable created to show some of the security features provided by the uVisor.
 
-The application endlessly calls the `secure_print()` function, which prints a message containing a secret. The output is shown on the USB serial port.
+The application calls the `secure_print_pwd()` function, which prints a protected password, every 2 seconds. This example shows how the uVisor ensures that that secret password cannot be tampered with, even by interrupt handlers. All messages are printed on the USB serial port.
 
 Currently the only supported platform is the [Freescale FRDM-K64F](http://developer.mbed.org/platforms/FRDM-K64F/) ([GCC ARM Embedded toolchain](https://launchpad.net/gcc-arm-embedded)).
 
-This example relies on the security features provided by the uVisor yotta module, called uvisor-lib. Refer to its [documentation](https://github.com/ARMmbed/uvisor-lib-private) for implementation-specific details. Please note that the [official documentation](https://github.com/ARMmbed/uvisor-private) for the uVisor describes the higher level security model, instead.
+This example relies on the security features provided by the uVisor yotta module, called uvisor-lib. Refer to its [documentation](https://github.com/ARMmbed/uvisor-lib) for implementation-specific details. Please note that the [official documentation](https://github.com/ARMmbed/uvisor) for the uVisor describes the higher level security model, instead.
 
 ### How To
 
@@ -17,8 +17,8 @@ The following section explains how to build, flash and run the uVisor on OS X, L
 Please install the following:
 
 * [yotta](https://github.com/ARMmbed/yotta). Please note that **yotta has its own set of dependencies**, listed in the [installation instructions](http://armmbed.github.io/yotta/#installing-on-windows).
-* If your OS is Windows, please follow the installation instructions [for the serial port driver](https://developer.mbed.org/handbook/Windows-serial-configuration).
-* A terminal application: We suggest [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).
+* If your OS is Windows, please follow the installation instructions [for the
+  serial port driver](https://developer.mbed.org/handbook/Windows-serial-configuration); you will also need a terminal application: We suggest [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).
 
 #### Build
 
@@ -86,9 +86,9 @@ Then retry the build procedure.
 
 ### Debugging
 
-For failures or faults captured by the uVisor, a debugging message is printed on the same serial port of the uvisor-helloworld application.
+Failures and faults captured by the uVisor will trigger a system halt. Debugging messages for these faults are always printed through the semihosting interface. A debugger must be connected to the board to observe them. For some specific faults the uVisor will enable an LED blinking pattern which is specific to the error encountered. Please refer to the [uvisor-lib documentation](https://github.com/ARMmbed/uvisor-lib) for details.
 
-Further debug messages are disabled by default. If you want to enable them, you need to build a new version of uvisor-lib starting from the uVisor source code, with the debug option enabled. This process is described in the [uVisor documentation](https://github.com/ARMmbed/uvisor-private) and is repeated here briefly:
+Further debug messages are disabled by default. If you want to enable them, you need to build a new version of uvisor-lib starting from the uVisor source code, with the debug option enabled. This process is described in the [uVisor documentation](https://github.com/ARMmbed/uvisor) and is repeated here briefly:
 
 ```bash
 # assuming this is your code tree:
