@@ -10,8 +10,8 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#ifndef __BOX_ENCHMARK_H__
-#define __BOX_ENCHMARK_H__
+#ifndef __BOX_BENCHMARK_H__
+#define __BOX_BENCHMARK_H__
 
 typedef enum {
     secure = 0,
