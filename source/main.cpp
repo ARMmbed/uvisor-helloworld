@@ -17,13 +17,12 @@
 
 /* create ACLs for secret data section */
 static const UvisorBoxAclItem g_main_acl[] = {
-	{MCG,                  sizeof(*MCG),       UVISOR_TACLDEF_PERIPH},
-	{SIM,                  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
-	{(void *) 0x40048000,  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
-	{PORTA,                sizeof(*PORTA),     UVISOR_TACLDEF_PERIPH},
-	{PORTB,                sizeof(*PORTB),     UVISOR_TACLDEF_PERIPH},
-	{PORTC,                sizeof(*PORTC),     UVISOR_TACLDEF_PERIPH},
-	{PIT,                  sizeof(*PIT),       UVISOR_TACLDEF_PERIPH},
+    {MCG,                  sizeof(*MCG),       UVISOR_TACLDEF_PERIPH},
+    {SIM,                  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
+    {PORTA,                sizeof(*PORTA),     UVISOR_TACLDEF_PERIPH},
+    {PORTB,                sizeof(*PORTB),     UVISOR_TACLDEF_PERIPH},
+    {PORTC,                sizeof(*PORTC),     UVISOR_TACLDEF_PERIPH},
+    {PIT,                  sizeof(*PIT),       UVISOR_TACLDEF_PERIPH},
 };
 
 /* enable uvisor */
@@ -33,16 +32,16 @@ int main(void) {
     /************************************************************
      * BENCHMARK
      ************************************************************/
+    /* initialize benchmark unit */
+    uvisor_benchmark_configure();
+
     /* call mock function with and without secure gateway */
     uint32_t t1 = benchmark_mock(secure);
     uint32_t t2 = benchmark_mock(unsecure);
 
     /* assemble message string */
     char buffer[60];
-    if(t1)
-        sprintf(buffer, "Function call overhead: %luns\n\r", t1 - t2);
-    else
-        sprintf(buffer, "Unable to provide measurement\n\r");
+    sprintf(buffer, "Function call overhead: %lu clock cycles\n\r", t1 - t2);
     secure_print_msg(buffer, 60);
     /************************************************************/
 

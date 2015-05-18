@@ -1,5 +1,6 @@
 # vim files
 *.sw*
+*.asm
 .vim.custom
 .yotta.json
 gdb.script
