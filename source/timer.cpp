@@ -21,7 +21,10 @@
 /* polling variable */
 volatile int g_timer_polling;
 
-/* timer handler */
+/* timer handler
+ * since this handler is managed by the uVisor, it will not be executed in
+ * handler mode, but in unprivileged thread mode; resources of other secure
+ * boxes are not at risk! */
 static void timer_handler(void)
 {
     /* set polling variable */
