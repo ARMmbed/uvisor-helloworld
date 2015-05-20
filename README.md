@@ -1,8 +1,10 @@
 ## `Hello World!` Example for the uVisor
 
-This is a `Hello World!` yotta executable created to show some of the security features provided by the uVisor.
+This is a `Hello World!` yotta executable created to show some of the security features provided by the uVisor. The application calls the `secure_print_pwd()` function, which prints a protected password, every 2 seconds.
 
-The application calls the `secure_print_pwd()` function, which prints a protected password, every 2 seconds. This example shows how the uVisor ensures that that secret password cannot be tampered with, even by interrupt handlers. All messages are printed on the USB serial port.
+This example shows how the uVisor ensures that the secret password cannot be tampered with, even by interrupt handlers. To test these protection features, we added an event for the SW2 button press.
+
+By pressing the SW2 switch a read access is attempted in order to read the content of the uVisor-protected password, `g_password`. If you see the red LED on the board blinking for 5 times, it means the access has been denied by the uVisor and the CPU is halted. Otherwise the blue LED will turn on and the password will be printed on the UART0 port. The button can be pressed at different periods in time, even when the password is actually being read by the secure box that owns it - the uVisor will prevent that.
 
 Currently the only supported platform is the [Freescale FRDM-K64F](http://developer.mbed.org/platforms/FRDM-K64F/) ([GCC ARM Embedded toolchain](https://launchpad.net/gcc-arm-embedded)).
 

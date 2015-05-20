@@ -14,6 +14,7 @@
 #include <memory>
 #include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
+#include "btn.h"
 
 /* setup secret const section (Flash) */
 UVISOR_SECURE_CONST char g_password[] = "password";

@@ -14,6 +14,7 @@
 #include <uvisor-lib/uvisor-lib.h>
 #include "box_secure_print.h"
 #include "timer.h"
+#include "btn.h"
 
 /* create ACLs for secret data section */
 static const UvisorBoxAclItem g_main_acl[] = {
@@ -32,6 +33,9 @@ int main(void)
 {
     /* initialize timer */
     timer_init();
+
+    /* initialize GPIO button */
+    btn_init();
 
     while(1) {
         /* wait for timer */
