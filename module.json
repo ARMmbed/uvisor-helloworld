@@ -1,6 +1,6 @@
 {
   "name": "uvisor-helloworld",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Hello world example with uVisor enabled",
   "private": true,
   "keywords": [],
