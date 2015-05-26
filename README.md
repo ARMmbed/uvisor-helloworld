@@ -50,22 +50,12 @@ The application will be running right after flashing. You can observe the UART o
 
 **Tip:** you can identify the serial port the board is connected to by using ``mbedls`` (found in this release), as well as from your operating system's device manager.
 
-##### **OS X**
+##### **OS X** and Linux
 
 Assuming your serial port is `/dev/tty.usbmodemfa142`:
 
 ```bash
-screen /dev/tty.usbmodemfa142 115200 # Control-a D D to logout
-```
-
-##### **Linux**
-
-Assuming your serial port is `/dev/ttyACM0`:
-
-```bash
-# this could be needed if the baud rate is not correctly detected
-stty -F /dev/ttyACM0 115200
-cat /dev/ttyACM0
+sudo cu -s 115200 -l tty.usbmodemfa142 # [ENTER]~.[ENTER] to quit
 ```
 
 ##### **Windows**
