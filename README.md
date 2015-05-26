@@ -57,6 +57,7 @@ Assuming your serial port is `/dev/tty.usbmodemfa142`:
 ```bash
 sudo cu -s 115200 -l tty.usbmodemfa142 # [ENTER]~.[ENTER] to quit
 ```
+In Linux you can add your user to the group **dialout** to avoid using **sudo**.
 
 ##### **Windows**
 
