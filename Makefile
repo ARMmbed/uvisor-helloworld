@@ -16,7 +16,7 @@ PREFIX:=arm-none-eabi-
 PROJECT:=uvisor-helloworld
 ARCH:=MK64F
 CPU:=$(ARCH)N1M0XXX12
-TARGET:=frdm-k64f-gcc
+YT_TARGET:=frdm-k64f-gcc
 
 #
 # flash firmware image using segger JLink
@@ -37,7 +37,7 @@ OBJDUMP:=$(PREFIX)objdump
 #
 # derived variables
 #
-TARGET:=./build/$(TARGET)/source/$(PROJECT)
+TARGET:=./build/$(YT_TARGET)/source/$(PROJECT)
 TARGET_BIN:=$(TARGET).bin
 JLINK_SERVER:=$(SEGGER)JLinkGDBServer
 
@@ -61,7 +61,7 @@ endif
 all: debug flash
 
 setup:
-	yotta target frdm-k64f-gcc
+	yotta target $(YT_TARGET)
 
 debug:
 	yotta build -d -- -j8
