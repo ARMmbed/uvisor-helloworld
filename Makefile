@@ -14,9 +14,9 @@
 
 PREFIX:=arm-none-eabi-
 PROJECT:=uvisor-helloworld
-ARCH:=MK64F
-CPU:=$(ARCH)N1M0XXX12
-YT_TARGET:=frdm-k64f-gcc
+ARCH:=STM32
+CPU:=$(ARCH)F429ZI
+YT_TARGET:=stm32f429i-disco-gcc
 
 #
 # flash firmware image using segger JLink
@@ -47,7 +47,7 @@ JLINK_SERVER:=$(SEGGER)JLinkGDBServer
 include Makefile.scripts
 
 # check if uvisor symbol file can be read - add to symbols GDB config if present
-GDB_DEBUG_SYMBOLS_FILE:=$(wildcard ../uvisor*/k64f/uvisor/k64f_uvisor.elf)
+GDB_DEBUG_SYMBOLS_FILE:=$(wildcard ../uvisor/stm32/uvisor/stm32_uvisor.elf)
 ifneq ("$(GDB_DEBUG_SYMBOLS_FILE)","")
 	GDB_DEBUG_UVISOR:=add-symbol-file $(GDB_DEBUG_SYMBOLS_FILE) uvisor_init
 endif
