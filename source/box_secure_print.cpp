@@ -10,9 +10,9 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#include <mbed.h>
 #include <memory>
-#include <uvisor-lib/uvisor-lib.h>
+#include "mbed/mbed.h"
+#include "uvisor-lib/uvisor-lib.h"
 #include "box_secure_print.h"
 #include "btn.h"
 

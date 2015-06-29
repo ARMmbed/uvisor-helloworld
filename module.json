@@ -18,9 +18,12 @@
   ],
   "dependencies": {
     "uvisor-lib": "~0.6.0",
-    "mbed": "*",
-    "mbed-hal-ksdk-mcu": "*"
+    "mbed": "*"
   },
-  "targetDependencies": {},
+  "targetDependencies": {
+    "k64f": {
+      "mbed-hal-ksdk-mcu": "*"
+    }
+  },
   "bin": "./source"
 }

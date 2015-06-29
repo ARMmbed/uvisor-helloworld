@@ -10,12 +10,12 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#include <mbed.h>
-#include <uvisor-lib/uvisor-lib.h>
-#include <mbed-hal-ksdk-mcu/TARGET_KSDK_CODE/drivers/clock/fsl_clock_manager.h>
-#include <mbed-hal-ksdk-mcu/TARGET_KSDK_CODE/hal/gpio/fsl_gpio_hal.h>
-#include <mbed-hal-ksdk-mcu/TARGET_KSDK_CODE/hal/port/fsl_port_hal.h>
-#include <mbed-hal-ksdk-mcu/PortNames.h>
+#include "mbed/mbed.h"
+#include "uvisor-lib/uvisor-lib.h"
+#include "mbed-hal-ksdk-mcu/TARGET_KSDK_CODE/drivers/clock/fsl_clock_manager.h"
+#include "mbed-hal-ksdk-mcu/TARGET_KSDK_CODE/hal/gpio/fsl_gpio_hal.h"
+#include "mbed-hal-ksdk-mcu/TARGET_KSDK_CODE/hal/port/fsl_port_hal.h"
+#include "mbed-hal-ksdk-mcu/PortNames.h"
 #include "btn.h"
 
 DigitalOut blue_led(LED_BLUE);
