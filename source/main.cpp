@@ -10,44 +10,22 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#include <mbed.h>
-#include <uvisor-lib/uvisor-lib.h>
-#include "box_secure_print.h"
-#include "timer.h"
-#include "btn.h"
-
-/* create ACLs for secret data section */
-static const UvisorBoxAclItem g_main_acl[] = {
-    {MCG,                  sizeof(*MCG),       UVISOR_TACLDEF_PERIPH},
-    {SIM,                  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
-    {PORTB,                sizeof(*PORTB),     UVISOR_TACLDEF_PERIPH},
-    {PORTC,                sizeof(*PORTC),     UVISOR_TACLDEF_PERIPH},
-    {PIT,                  sizeof(*PIT),       UVISOR_TACLDEF_PERIPH},
-};
+#include "mbed/mbed.h"
+#include "uvisor-lib/uvisor-lib.h"
 
 /* enable uvisor */
-UVISOR_SET_MODE_ACL(2, g_main_acl);
+UVISOR_SET_MODE(2);
+
+DigitalOut led(LED1);
 
 int main(void)
 {
-    /* initialize timer */
-    timer_init();
+    int i;
 
-    /* initialize GPIO button */
-    btn_init();
+    led = 0;
 
     while(1) {
-        /* wait for timer */
-        while(!g_timer_polling) {
-            __WFE();
-        }
-
-        /* print password securely */
-        secure_print_pwd();
-
-        /* reset polling */
-        g_timer_polling = 0;
+        led = !led;
+        for(i = 0; i < 10000000; ++i);
     }
-
-    return 0;
 }
