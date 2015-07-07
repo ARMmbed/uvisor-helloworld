@@ -14,9 +14,15 @@
 
 PREFIX:=arm-none-eabi-
 PROJECT:=uvisor-helloworld
-ARCH:=STM32
-CPU:=$(ARCH)F429ZI
-YT_TARGET:=stm32f429i-disco-gcc
+
+ifeq ("$(ARCH)","MK64F")
+	CPU:=$(ARCH)N1M0XXX12
+	YT_TARGET:=frdm-k64f-gcc
+else
+	ARCH:=STM32F
+	CPU:=$(ARCH)429ZI
+	YT_TARGET:=stm32f429i-disco-gcc
+endif
 
 #
 # flash firmware image using segger JLink
