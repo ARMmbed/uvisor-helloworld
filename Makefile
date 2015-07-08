@@ -18,10 +18,12 @@ PROJECT:=uvisor-helloworld
 ifeq ("$(ARCH)","MK64F")
 	CPU:=$(ARCH)N1M0XXX12
 	YT_TARGET:=frdm-k64f-gcc
+	GDB_TARGET:=k64f
 else
 	ARCH:=STM32F
 	CPU:=$(ARCH)429ZI
 	YT_TARGET:=stm32f429i-disco-gcc
+	GDB_TARGET:=stm32f4
 endif
 
 #
@@ -53,7 +55,7 @@ JLINK_SERVER:=$(SEGGER)JLinkGDBServer
 include Makefile.scripts
 
 # check if uvisor symbol file can be read - add to symbols GDB config if present
-GDB_DEBUG_SYMBOLS_FILE:=$(wildcard ../uvisor/stm32/uvisor/stm32_uvisor.elf)
+GDB_DEBUG_SYMBOLS_FILE:=$(wildcard ../uvisor*/$(GDB_TARGET)/uvisor/$(GDB_TARGET)_uvisor.elf)
 ifneq ("$(GDB_DEBUG_SYMBOLS_FILE)","")
 	GDB_DEBUG_UVISOR:=add-symbol-file $(GDB_DEBUG_SYMBOLS_FILE) uvisor_init
 endif
