@@ -46,6 +46,6 @@ void btn_init(void)
 
     /* clear interrupt status flag and set interrupt handler */
     PORT_HAL_ClearPortIntFlag(PORTC_BASE);
-    uvisor_isr_set(PORTC_IRQn, (uint32_t) &btn_on_press, 0);
-    uvisor_irq_enable(PORTC_IRQn);
+    vIRQ_SetVector(PORTC_IRQn, (uint32_t) &btn_on_press);
+    vIRQ_EnableIRQ(PORTC_IRQn);
 }

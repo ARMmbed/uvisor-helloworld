@@ -17,8 +17,8 @@
     }
   ],
   "dependencies": {
-    "uvisor-lib": "~0.6.0",
-    "mbed": "*"
+    "uvisor-lib": "~0.7.0",
+    "mbed-core": "*"
   },
   "targetDependencies": {
     "k64f": {

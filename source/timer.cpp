@@ -47,8 +47,8 @@ void timer_init(void)
     PIT_HAL_SetTimerRunInDebugCmd(PIT_BASE, false);
 
     /* configure interrupt */
-    uvisor_isr_set(PIT1_IRQn, (uint32_t) &timer_handler, 0);
-    uvisor_irq_enable(PIT1_IRQn);
+    vIRQ_SetVector(PIT1_IRQn, (uint32_t) &timer_handler);
+    vIRQ_EnableIRQ(PIT1_IRQn);
 
     /* configure registers */
     cnt = (uint32_t) ((uint64_t) TIMER_T_US * CLOCK_SYS_GetPitFreq(0) /
