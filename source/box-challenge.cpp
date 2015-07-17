@@ -64,7 +64,11 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t* secret, int len)
 	if(len!=CHALLENGE_SIZE)
 		return false;
 
-	/* generate new secret on the first run */
+	/* FIXME: verify that secret pointer points
+	 * outside of box stack and box context */
+
+	/* generate new secret on the first run
+	 * FIXME: enable clocks for HW-RNG */
 	if(!g_box_state->initialized)
 		__randomize_new_secret();
 
