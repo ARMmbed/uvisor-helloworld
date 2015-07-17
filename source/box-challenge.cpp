@@ -23,6 +23,7 @@ typedef struct {
 
 /* create ACLs for secret data section */
 static const UvisorBoxAclItem g_box_acl[] = {
+	{RNG,                  sizeof(*RNG),       UVISOR_TACLDEF_PERIPH}
 };
 
 /* configure secure box compartnent and reserve box context */
