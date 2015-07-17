@@ -16,6 +16,6 @@
 
 #define CHALLENGE_SIZE 16
 
-extern "C" bool verify_secret(const uint8_t* secret, int len);
+UVISOR_EXTERN bool verify_secret(const uint8_t* secret, int len);
 
 #endif/*__BOX_CHALLENGE_H__*/
