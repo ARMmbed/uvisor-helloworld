@@ -10,7 +10,6 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-
 #ifndef __BOX_CHALLENGE_H__
 #define __BOX_CHALLENGE_H__
 
