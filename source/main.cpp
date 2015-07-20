@@ -12,16 +12,19 @@
  ***************************************************************/
 #include "mbed/mbed.h"
 #include "uvisor-lib/uvisor-lib.h"
+#include "main-acl.h"
 #include "box-challenge.h"
 
-/* enable uvisor */
-UVISOR_SET_MODE(2);
+/* create ACLs for main box */
+MAIN_ACL(g_main_acl);
 
-DigitalOut led(LED1);
+/* enable uvisor */
+UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
+
+DigitalOut led(MAIN_LED);
 
 int main(void)
 {
-    int i;
     uint8_t challenge[CHALLENGE_SIZE];
 
     /* reset challenge */
@@ -38,7 +41,7 @@ int main(void)
         else
             led = !led;
 
-        /* spinning wait, FIXME: replace by timer-wait */
-        for(i = 0; i < 10000000; ++i);
+        /* wait before trying again */
+        wait(1.0);
     }
 }
