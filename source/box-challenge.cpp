@@ -2,7 +2,7 @@
  * This confidential and  proprietary  software may be used only
  * as authorised  by  a licensing  agreement  from  ARM  Limited
  *
- *             (C) COPYRIGHT 2013-2014 ARM Limited
+ *             (C) COPYRIGHT 2013-2015 ARM Limited
  *                      ALL RIGHTS RESERVED
  *
  *  The entire notice above must be reproduced on all authorised
@@ -10,38 +10,29 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#include <mbed/mbed.h>
-#include <uvisor-lib/uvisor-lib.h>
+#include "mbed/mbed.h"
+#include "uvisor-lib/uvisor-lib.h"
 #include "box-challenge.h"
-
-#define CHALLENGE_SIZE 16
+#include "box-challenge-acl.h"
 
 typedef struct {
 	bool initialized;
 	uint8_t secret[CHALLENGE_SIZE];
-} MyContext;
+} BoxContext;
 
 /* create ACLs for secret data section */
-static const UvisorBoxAclItem g_box_acl[] = {
-	{RNG,                  sizeof(*RNG),       UVISOR_TACLDEF_PERIPH}
-};
+BOX_CHALLENGE_ACL(g_box_acl);
 
 /* configure secure box compartnent and reserve box context */
-UVISOR_BOX_CONTEXT(box_challenge, g_box_acl, UVISOR_BOX_STACK_SIZE, sizeof(MyContext));
-
-/* all boxes share the same context pointer in public RAM
- * uVisor switches context to the box-specific context with
- * the specified length in UVISOR_BOX_STATE. The box context
- * is private per box */
-#define g_box_state static_cast<MyContext*>(__uvisor_box_context)
+UVISOR_BOX_CONFIG(box_challenge, g_box_acl, UVISOR_BOX_STACK_SIZE, BoxContext);
 
 static void __randomize_new_secret(void)
 {
-	/* fixme - replace with HW-RNG */
-	memset(g_box_state->secret, 0, sizeof(g_box_state->secret));
+	/* FIXME replace with HW-RNG */
+	memset(uvisor_ctx->secret, 0, sizeof(uvisor_ctx->secret));
 }
 
-static bool secure_compare(const uint8_t* src, const uint8_t* dst, int len)
+static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
 {
 	int diff;
 
@@ -64,25 +55,20 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t* secret, int len)
 	if(len!=CHALLENGE_SIZE)
 		return false;
 
-	/* FIXME: verify that secret pointer points
-	 * outside of box stack and box context */
+	/* FIXME verify that secret pointer points outside of box stack context */
 
 	/* generate new secret on the first run
-	 * FIXME: enable clocks for HW-RNG */
-	if(!g_box_state->initialized)
+	 * FIXME enable clocks for HW-RNG */
+	if(!uvisor_ctx->initialized)
 		__randomize_new_secret();
 
-	return secure_compare(secret, g_box_state->secret, len);
+	return secure_compare(secret, uvisor_ctx->secret, len);
 }
 
 bool verify_secret(const uint8_t* secret, int len)
 {
     /* security transition happens here
-     *   ensures that __secure_print_pwd() will run with the privileges
-     *   of the secure_print box - if uvisor-mode */
-    if(__uvisor_mode)
-        return secure_gateway(box_challenge, __verify_secret, secret, len);
-    else
-        /* fallback for disabled uvisor */
-        return __verify_secret(secret, len);
+     *   ensures that __verify_secret() will run with the privileges
+     *   of the box_challenge box */
+    return secure_gateway(box_challenge, __verify_secret, secret, len);
 }
