@@ -64,7 +64,7 @@ endif
 # build targets
 #
 
-.PHONY: all setup firmware relase flash erase reset gdb gdbtui gdbserver clean
+.PHONY: all setup firmware relase flash erase reset gdb.script gdb gdbtui gdbserver clean
 
 all: debug gdbtui
 
