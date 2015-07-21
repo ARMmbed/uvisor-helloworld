@@ -66,7 +66,7 @@ endif
 
 .PHONY: all setup firmware relase flash erase reset gdb.script gdb gdbtui gdbserver clean
 
-all: debug flash
+all: debug gdbtui
 
 setup:
 	yotta target $(YT_TARGET)

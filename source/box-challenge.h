@@ -2,7 +2,7 @@
  * This confidential and  proprietary  software may be used only
  * as authorised  by  a licensing  agreement  from  ARM  Limited
  *
- *             (C) COPYRIGHT 2013-2014 ARM Limited
+ *             (C) COPYRIGHT 2013-2015 ARM Limited
  *                      ALL RIGHTS RESERVED
  *
  *  The entire notice above must be reproduced on all authorised
@@ -10,11 +10,11 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#ifndef __TIMER_H__
-#define __TIMER_H__
+#ifndef __BOX_CHALLENGE_H__
+#define __BOX_CHALLENGE_H__
 
-extern volatile int g_timer_polling;
+#define CHALLENGE_SIZE 16
 
-void timer_init(void);
+UVISOR_EXTERN bool verify_secret(const uint8_t *secret, int len);
 
-#endif/*__TIMER_H__*/
+#endif/*__BOX_CHALLENGE_H__*/

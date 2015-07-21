@@ -2,7 +2,7 @@
  * This confidential and  proprietary  software may be used only
  * as authorised  by  a licensing  agreement  from  ARM  Limited
  *
- *             (C) COPYRIGHT 2013-2014 ARM Limited
+ *             (C) COPYRIGHT 2013-2015 ARM Limited
  *                      ALL RIGHTS RESERVED
  *
  *  The entire notice above must be reproduced on all authorised
@@ -12,42 +12,36 @@
  ***************************************************************/
 #include "mbed/mbed.h"
 #include "uvisor-lib/uvisor-lib.h"
-#include "box_secure_print.h"
-#include "timer.h"
-#include "btn.h"
+#include "main-acl.h"
+#include "box-challenge.h"
 
-/* create ACLs for secret data section */
-static const UvisorBoxAclItem g_main_acl[] = {
-    {MCG,                  sizeof(*MCG),       UVISOR_TACLDEF_PERIPH},
-    {SIM,                  sizeof(*SIM),       UVISOR_TACLDEF_PERIPH},
-    {PORTB,                sizeof(*PORTB),     UVISOR_TACLDEF_PERIPH},
-    {PORTC,                sizeof(*PORTC),     UVISOR_TACLDEF_PERIPH},
-    {PIT,                  sizeof(*PIT),       UVISOR_TACLDEF_PERIPH},
-};
+/* create ACLs for main box */
+MAIN_ACL(g_main_acl);
 
 /* enable uvisor */
-UVISOR_SET_MODE_ACL(2, g_main_acl);
+UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
+
+DigitalOut led(MAIN_LED);
 
 int main(void)
 {
-    /* initialize timer */
-    timer_init();
+    uint8_t challenge[CHALLENGE_SIZE];
 
-    /* initialize GPIO button */
-    btn_init();
+    /* reset challenge */
+    memset(&challenge, 0, sizeof(challenge));
+
+    /* turn LED off */
+    led = false;
 
     while(1) {
-        /* wait for timer */
-        while(!g_timer_polling) {
-            __WFE();
-        }
 
-        /* print password securely */
-        secure_print_pwd();
+        /* check for secret, blink if it's wrong */
+        if(verify_secret(challenge, sizeof(challenge)))
+            led = true;
+        else
+            led = !led;
 
-        /* reset polling */
-        g_timer_polling = 0;
+        /* wait before trying again */
+        wait(1.0);
     }
-
-    return 0;
 }
