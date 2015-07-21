@@ -25,6 +25,7 @@
 
 #define BOX_CHALLENGE_ACL(acl_list_name) \
     static const UvisorBoxAclItem g_box_acl[] = {       \
+        {RNG,   sizeof(*RNG),   UVISOR_TACLDEF_PERIPH}  \
     }
 
 #else
