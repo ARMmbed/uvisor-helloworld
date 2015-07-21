@@ -29,7 +29,7 @@ UVISOR_BOX_CONFIG(box_challenge, g_box_acl, UVISOR_BOX_STACK_SIZE, BoxContext);
 static void __randomize_new_secret(void)
 {
 	/* FIXME replace with HW-RNG */
-	memset(uvisor_box_context->secret, 0, sizeof(uvisor_box_context->secret));
+	memset(uvisor_ctx->secret, 0, sizeof(uvisor_ctx->secret));
 }
 
 static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
@@ -59,10 +59,10 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t* secret, int len)
 
 	/* generate new secret on the first run
 	 * FIXME enable clocks for HW-RNG */
-	if(!uvisor_box_context->initialized)
+	if(!uvisor_ctx->initialized)
 		__randomize_new_secret();
 
-	return secure_compare(secret, uvisor_box_context->secret, len);
+	return secure_compare(secret, uvisor_ctx->secret, len);
 }
 
 bool verify_secret(const uint8_t* secret, int len)
