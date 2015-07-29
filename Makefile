@@ -91,6 +91,9 @@ erase:
 reset:
 	@echo "$$__SCRIPT_RESET" | $(JLINK) $(JLINK_PARAM)
 
+jlink:
+	$(JLINK) $(JLINK_PARAM)
+
 gdb.script:
 	@echo "$$__SCRIPT_GDB" > $@
 
