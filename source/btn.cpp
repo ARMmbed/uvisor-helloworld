@@ -11,39 +11,25 @@
  *
  ***************************************************************/
 #include "mbed/mbed.h"
-#include "uvisor-lib/uvisor-lib.h"
+#include "btn.h"
 #include "main-acl.h"
 #include "box-challenge.h"
-#include "btn.h"
 
-/* create ACLs for main box */
-MAIN_ACL(g_main_acl);
+InterruptIn btn(MAIN_BTN);
 
-/* enable uvisor */
-UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
-
-DigitalOut led(MAIN_LED);
-
-void app_start(int, char *[])
+static void btn_onpress(void)
 {
     uint8_t challenge[CHALLENGE_SIZE];
 
-    /* reset challenge */
-    memset(&challenge, 0, sizeof(challenge));
+    /* attempt copy from g_BLA (owned by box_challenge) and
+     *                   g_BLA (owned by the mbed box) */
+    /* TODO */
+}
 
-    /* turn LED off */
-    led = false;
-
+void btn_init(void)
+{
     /* configure pushbutton */
-    btn_init();
-
-    while(1) {
-
-        /* check for secret, blink if it's wrong */
-        if(verify_secret(challenge, sizeof(challenge)))
-            led = true;
-
-        /* wait before trying again */
-        wait(1.0);
-    }
+    btn.mode(PullUp);
+    wait(.01);
+    btn.fall(&btn_onpress);
 }
