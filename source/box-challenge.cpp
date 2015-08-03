@@ -16,8 +16,8 @@
 #include "box-challenge-acl.h"
 
 typedef struct {
-	bool initialized;
-	uint8_t secret[CHALLENGE_SIZE];
+    bool initialized;
+    uint8_t secret[CHALLENGE_SIZE];
 } BoxContext;
 
 /* create ACLs for secret data section */
@@ -28,44 +28,44 @@ UVISOR_BOX_CONFIG(box_challenge, g_box_acl, UVISOR_BOX_STACK_SIZE, BoxContext);
 
 static void __randomize_new_secret(void)
 {
-	/* FIXME replace with HW-RNG */
-	memset(uvisor_ctx->secret, 0, sizeof(uvisor_ctx->secret));
+    /* FIXME replace with HW-RNG */
+    memset(uvisor_ctx->secret, 0, sizeof(uvisor_ctx->secret));
 }
 
 static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
 {
-	int diff;
+    int diff;
 
-	/* disallow length<0 */
-	if(len<0)
-		return false;
+    /* disallow length<0 */
+    if(len<0)
+        return false;
 
-	/* time-constant comparison using XOR */
-	diff = 0;
-	while(len--)
-		diff += *src++ ^ *dst++;
+    /* time-constant comparison using XOR */
+    diff = 0;
+    while(len--)
+        diff += *src++ ^ *dst++;
 
-	/* if all bytes in src and dst are equal, the sum of the XOR's is zero */
-	return !diff;
+    /* if all bytes in src and dst are equal, the sum of the XOR's is zero */
+    return !diff;
 }
 
-UVISOR_EXTERN bool __verify_secret(const uint8_t* secret, int len)
+UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
 {
-	/* only accept the right challenge size */
-	if(len!=CHALLENGE_SIZE)
-		return false;
+    /* only accept the right challenge size */
+    if(len!=CHALLENGE_SIZE)
+        return false;
 
-	/* FIXME verify that secret pointer points outside of box stack context */
+    /* FIXME verify that secret pointer points outside of box stack context */
 
-	/* generate new secret on the first run
-	 * FIXME enable clocks for HW-RNG */
-	if(!uvisor_ctx->initialized)
-		__randomize_new_secret();
+    /* generate new secret on the first run
+     * FIXME enable clocks for HW-RNG */
+    if(!uvisor_ctx->initialized)
+        __randomize_new_secret();
 
-	return secure_compare(secret, uvisor_ctx->secret, len);
+    return secure_compare(secret, uvisor_ctx->secret, len);
 }
 
-bool verify_secret(const uint8_t* secret, int len)
+bool verify_secret(const uint8_t *secret, int len)
 {
     /* security transition happens here
      *   ensures that __verify_secret() will run with the privileges
