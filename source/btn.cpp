@@ -21,8 +21,7 @@ static void btn_onpress(void)
 {
     uint8_t challenge[CHALLENGE_SIZE];
 
-    /* attempt copy from g_BLA (owned by box_challenge) and
-     *                   g_BLA (owned by the mbed box) */
+    /* attempt copy from box_challenge context */
     /* TODO */
 }
 
