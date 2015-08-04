@@ -13,7 +13,7 @@
 #include "mbed/mbed.h"
 #include "uvisor-lib/uvisor-lib.h"
 #include "btn.h"
-#include "main-acl.h"
+#include "main-hw.h"
 #include "box-challenge.h"
 
 InterruptIn btn(MAIN_BTN);

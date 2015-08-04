@@ -12,7 +12,7 @@
  ***************************************************************/
 #include "mbed/mbed.h"
 #include "uvisor-lib/uvisor-lib.h"
-#include "main-acl.h"
+#include "main-hw.h"
 #include "box-challenge.h"
 #include "btn.h"
 

@@ -13,7 +13,7 @@
 #include "mbed/mbed.h"
 #include "uvisor-lib/uvisor-lib.h"
 #include "box-challenge.h"
-#include "box-challenge-acl.h"
+#include "box-challenge-hw.h"
 
 typedef struct {
     bool initialized;

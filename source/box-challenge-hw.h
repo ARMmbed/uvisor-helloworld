@@ -10,8 +10,8 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#ifndef __BOX_CHALLENGE_ACL_H__
-#define __BOX_CHALLENGE_ACL_H__
+#ifndef __BOX_CHALLENGE_HW_H__
+#define __BOX_CHALLENGE_HW_H__
 
 /* target specifc ACLs */
 #if   defined(TARGET_LIKE_FRDM_K64F_GCC)
@@ -35,4 +35,4 @@
 
 #endif
 
-#endif/*__BOX_CHALLENGE_ACL_H__*/
+#endif/*__BOX_CHALLENGE_HW_H__*/

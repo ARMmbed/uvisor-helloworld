@@ -10,12 +10,14 @@
  *  by a licensing agreement from ARM Limited.
  *
  ***************************************************************/
-#ifndef __MAIN_ACL_H__
-#define __MAIN_ACL_H__
+#ifndef __MAIN_HW_H__
+#define __MAIN_HW_H__
 
 /* target specifc ACLs */
 #if   defined(TARGET_LIKE_FRDM_K64F_GCC)
 
+#define LED_ON  false
+#define LED_OFF true
 #define MAIN_LED LED_BLUE
 #define MAIN_BTN SW2
 #define MAIN_ACL(acl_list_name) \
@@ -31,6 +33,8 @@
 
 #elif defined(TARGET_LIKE_STM32F429I_DISCO_GCC)
 
+#define LED_ON  false
+#define LED_OFF true
 #define MAIN_LED LED1
 #define MAIN_BTN USER_BUTTON
 #define MAIN_ACL(acl_list_name)                         \
@@ -46,4 +50,4 @@
 
 #endif
 
-#endif/*__MAIN_ACL_H__*/
+#endif/*__MAIN_HW_H__*/
