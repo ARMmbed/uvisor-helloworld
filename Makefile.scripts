@@ -27,8 +27,8 @@ define __SCRIPT_GDB
 	load $(TARGET)
 	file $(TARGET)
 	$(GDB_DEBUG_UVISOR)
-	b main
 	b vmpu_init_post
+	b app_start
 endef
 export __SCRIPT_GDB
 
