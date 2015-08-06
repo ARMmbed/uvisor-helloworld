@@ -24,26 +24,30 @@ UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
 
 DigitalOut led(MAIN_LED);
 
+uint8_t g_challenge[CHALLENGE_SIZE];
+
 void app_start(int, char *[])
 {
-    uint8_t challenge[CHALLENGE_SIZE];
-
     /* reset challenge */
-    memset(&challenge, 0, sizeof(challenge));
+    memset(&g_challenge, 0, sizeof(g_challenge));
 
     /* turn LED off */
-    led = false;
+    led = LED_OFF;
 
     /* configure pushbutton */
     btn_init();
 
     while(1) {
-
-        /* check for secret, blink if it's wrong */
-        if(verify_secret(challenge, sizeof(challenge)))
-            led = true;
+        /* check for secret */
+        if(verify_secret(g_challenge, sizeof(g_challenge)))
+        {
+            /* send LED pulse if the secret was found */
+            led = LED_ON;
+            wait(.4);
+            led = LED_OFF;
+        }
 
         /* wait before trying again */
-        wait(1.0);
+        wait(2.0);
     }
 }
