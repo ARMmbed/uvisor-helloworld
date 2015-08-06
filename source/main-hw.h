@@ -13,6 +13,11 @@
 #ifndef __MAIN_HW_H__
 #define __MAIN_HW_H__
 
+/* the vector containing the challenge is shared with the push-button ISR, so
+ * that it can attempt to access it from an IRQ context */
+#include "box-challenge.h"
+extern uint8_t g_challenge[CHALLENGE_SIZE];
+
 /* target specifc ACLs */
 #if   defined(TARGET_LIKE_FRDM_K64F_GCC)
 

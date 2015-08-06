@@ -16,8 +16,8 @@
 #include "box-challenge-hw.h"
 
 typedef struct {
-    bool initialized;
     uint8_t secret[CHALLENGE_SIZE];
+    bool initialized;
 } BoxContext;
 
 /* create ACLs for secret data section */
@@ -26,10 +26,17 @@ BOX_CHALLENGE_ACL(g_box_acl);
 /* configure secure box compartnent and reserve box context */
 UVISOR_BOX_CONFIG(box_challenge, g_box_acl, UVISOR_BOX_STACK_SIZE, BoxContext);
 
-static void __randomize_new_secret(void)
+void *g_box_context;
+
+static void randomize_new_secret(void)
 {
     /* FIXME replace with HW-RNG */
-    memset(uvisor_ctx->secret, 0, sizeof(uvisor_ctx->secret));
+    memset(uvisor_ctx->secret, 1, sizeof(uvisor_ctx->secret));
+
+    /* the address of the context is stored and exposed, only for testing
+     * purposes; uvisor protection ensures that accesses to this memory location
+     * outside the box secure context will fail */
+    g_box_context = (void *) uvisor_ctx;
 }
 
 static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
@@ -60,7 +67,7 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
     /* generate new secret on the first run
      * FIXME enable clocks for HW-RNG */
     if(!uvisor_ctx->initialized)
-        __randomize_new_secret();
+        randomize_new_secret();
 
     return secure_compare(secret, uvisor_ctx->secret, len);
 }

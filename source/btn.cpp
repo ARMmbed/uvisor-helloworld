@@ -20,10 +20,10 @@ InterruptIn btn(MAIN_BTN);
 
 static void btn_onpress(void)
 {
-    uint8_t challenge[CHALLENGE_SIZE];
-
-    /* attempt copy from box_challenge context */
-    /* TODO */
+    /* attempt copy from box_challenge context
+     * we know the context is properly aligned so we try to obtain a carbon copy
+     * of its memory location */
+    memcpy(&g_challenge, g_box_context, sizeof(g_challenge));
 }
 
 void btn_init(void)
