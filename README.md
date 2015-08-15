@@ -38,7 +38,7 @@ yt build
 ```
 
 The resulting binary file will be located in
-`build/frdm-k64f-gcc/source/uvisor-helloworld/`.
+`build/frdm-k64f-gcc/source/uvisor-helloworld.bin`.
 
 #### Flash
 
@@ -46,7 +46,7 @@ Connect your board to your computer's USB port (using the OpenSDA port on the bo
 
 #### Run
 
-The application will be running right after flashing. You can observe the UART output on the USB serial port. Follow the instructions below.
+Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. You can observe the UART output on the USB serial port. Follow the instructions below.
 
 **Tip:** you can identify the serial port the board is connected to by using ``mbedls`` (found in this release), as well as from your operating system's device manager.
 
