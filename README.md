@@ -1,12 +1,14 @@
 ## `Hello World!` Example for the uVisor
 
-This is a `Hello World!` yotta executable created to show some of the security features provided by the uVisor. The application calls the `secure_print_pwd()` function, which prints a protected password, every 2 seconds.
+This is a `Hello World!` yotta executable created to show some of the security features provided by the uVisor. The application hosts a secure box that is able to generate a secret at runtime. The secret is stored in the box context, so it is protected by uVisor against the rest of the code.
 
-This example shows how the uVisor ensures that the secret password cannot be tampered with, even by interrupt handlers. To test these protection features, we added an event for the SW2 button press.
+We propose here a challenge. For the seuciry model to be effective, the box secret should not be in any way leaked. You can attempt whatever approach you prefer to try and read the secret. By default, the main loop continuosuly tries to verify its challenge against the box secret.
 
-By pressing the SW2 switch a read access is attempted in order to read the content of the uVisor-protected password, `g_password`. If you see the red LED on the board blinking for 5 times, it means the access has been denied by the uVisor and the CPU is halted. Otherwise the blue LED will turn on and the password will be printed on the UART0 port. The button can be pressed at different periods in time, even when the password is actually being read by the secure box that owns it - the uVisor will prevent that.
+We already provide one example of such approach. An on-board push-button (`SW2` on the K64F, `USER_BUTTON` on the STM32F) triggers an interrupt service routine that tries to read the secret from the (leaked) box context pointer. If the read is successful the next iteration of the password check will be successful and an LED will blink (blue on K64F, green on STM32F4). If, on the contrary, the uVisor captures the denied access, the system will halt and the red LED will blink.
 
-Currently the only supported platform is the [Freescale FRDM-K64F](http://developer.mbed.org/platforms/FRDM-K64F/) ([GCC ARM Embedded toolchain](https://launchpad.net/gcc-arm-embedded)).
+Supported platforms:
+- [Freescale FRDM-K64F](http://developer.mbed.org/platforms/FRDM-K64F/) ([GCC ARM Embedded toolchain](https://launchpad.net/gcc-arm-embedded)).
+- [STMicorelectronics STM32F429I-DISCO](http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/PF259090) ([GCC ARM Embedded toolchain](https://launchpad.net/gcc-arm-embedded)).
 
 This example relies on the security features provided by the uVisor yotta module, called uvisor-lib. Refer to its [documentation](https://github.com/ARMmbed/uvisor-lib) for implementation-specific details. Please note that the [official documentation](https://github.com/ARMmbed/uvisor) for the uVisor describes the higher level security model, instead.
 
@@ -18,9 +20,7 @@ The following section explains how to build, flash and run the uVisor on OS X, L
 
 Please install the following:
 
-* [yotta](https://github.com/ARMmbed/yotta). Please note that **yotta has its own set of dependencies**, listed in the [installation instructions](http://armmbed.github.io/yotta/#installing-on-windows).
-* If your OS is Windows, please follow the installation instructions [for the
-  serial port driver](https://developer.mbed.org/handbook/Windows-serial-configuration); you will also need a terminal application: We suggest [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).
+* [yotta](https://github.com/ARMmbed/yotta). Please note that yotta has its own set of dependencies, listed in the [installation instructions](http://armmbed.github.io/yotta/#installing-on-windows).
 
 #### Build
 
@@ -40,35 +40,24 @@ yt build
 The resulting binary file will be located in
 `build/frdm-k64f-gcc/source/uvisor-helloworld.bin`.
 
+The available targets for this example are:
+- `frdm-k64f-gcc`
+- `stm32f429i-disco-gcc`
+
 #### Flash
 
-Connect your board to your computer's USB port (using the OpenSDA port on the board) and simply drag & drop the binary file from the previous step into the `MBED` device listed in the file browser.
+Connect your board to your computer USB port and simply drag & drop the binary file from the previous step into the `MBED` device listed in the file browser. The STM32F4 does not offer yet the possibility to drag & drop a firmware on it, so you will need to use the STMicroelectronics proprietary [software](http://www.st.com/web/en/catalog/tools/PF258168) (available on Windows only) to flash it.
 
 #### Run
 
-Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. You can observe the UART output on the USB serial port. Follow the instructions below.
-
-**Tip:** you can identify the serial port the board is connected to by using ``mbedls`` (found in this release), as well as from your operating system's device manager.
-
-##### **OS X** and Linux
-
-Assuming your serial port is `/dev/tty.usbmodemfa142`:
-
-```bash
-sudo cu -s 115200 -l tty.usbmodemfa142 # [ENTER]~.[ENTER] to quit
-```
-In Linux you can add your user to the group **dialout** to avoid using **sudo**.
-
-##### **Windows**
-
-Use PuTTY. The port should be `COMx` (`COM1`, for example) and the baud rate (speed) is 115200.
+Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. If no LED blinks, it means that the program is simply comparing the password with the challenge, and the comparison is not successful. A blinking blu/green LED will signal a successful password leakage; a blinking red LED means the uVisor halted the system because of a denied access.
 
 ### Troubleshooting
 
 If you find any dependency problems during the build process, please make sure to use the most up-to-date versions of the linked modules. You can always update the dependencies of the linked modules:
 
 ```bash
-yt update --update-linked
+yt up -l
 ```
 If the build process still fails, consider cleaning the build environment:
 
@@ -79,33 +68,35 @@ Then retry the build procedure.
 
 ### Debugging
 
-Failures and faults captured by the uVisor will trigger a system halt. Debugging messages for these faults are always printed through the semihosting interface. A debugger must be connected to the board to observe them. For some specific faults the uVisor will enable an LED blinking pattern which is specific to the error encountered. Please refer to the [uvisor-lib documentation](https://github.com/ARMmbed/uvisor-lib) for details.
+Failures and faults captured by the uVisor will trigger a system halt. For some specific faults the uVisor will enable an LED blinking pattern which is specific to the error encountered. Please refer to the [uvisor-lib documentation](https://github.com/ARMmbed/uvisor-lib) for details.
 
-Further debug messages are disabled by default. If you want to enable them, you need to build a new version of uvisor-lib starting from the uVisor source code, with the debug option enabled. This process is described in the [uVisor documentation](https://github.com/ARMmbed/uvisor) and is repeated here briefly:
+Debugging messages are silenced by default. If you want to enabled them, you need to build a new version of uvisor-lib starting from the uVisor source code, with the debug option enabled. All messages are always printed through the semihosting interface; a debugger must be connected to the board to observe them. This process is described in the [uVisor documentation](https://github.com/ARMmbed/uvisor) and is repeated here briefly:
 
 ```bash
 # assuming this is your code tree:
 # ~/code/
 #   |
-#   `- my_project/
+#   `- uvisor-helloworld/
 #   |
 #   `- uvisor/
 #      |
 #      `- release/
 #      |
 #      `- k64f/uvisor/
+#      |
+#      `- stm32f4/uvisor/
 
-# cd to uvisor
+# cd to uvisor (using k64f in this example)
 cd ~/code/uvisor/k64f/uvisor
 
 # build a debug release
 make OPT= clean release
 
 # link the newly created release to yotta
-cd ../../release
+cd ~/code/uvisor/release
 yt link
 
 # link your project to the newly created release
-cd ~/code/my_project
+cd ~/code/uvisor-helloworld
 yt link uvisor-lib
 ```
