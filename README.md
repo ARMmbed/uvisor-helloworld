@@ -2,7 +2,7 @@
 
 This is a `Hello World!` yotta executable created to show some of the security features provided by the uVisor. The application hosts a secure box that is able to generate a secret at runtime. The secret is stored in the box context, so it is protected by uVisor against the rest of the code.
 
-We propose here a challenge. For the seuciry model to be effective, the box secret should not be in any way leaked. You can attempt whatever approach you prefer to try and read the secret. By default, the main loop continuosuly tries to verify its challenge against the box secret.
+We propose here a challenge. For the security model to be effective, the box secret should not be in any way leaked. You can attempt whatever approach you prefer to try and read the secret. By default, the main loop continuosuly tries to verify its challenge against the box secret.
 
 We already provide one example of such approach. An on-board push-button (`SW2` on the K64F, `USER_BUTTON` on the STM32F) triggers an interrupt service routine that tries to read the secret from the (leaked) box context pointer. If the read is successful the next iteration of the password check will be successful and an LED will blink (blue on K64F, green on STM32F4). If, on the contrary, the uVisor captures the denied access, the system will halt and the red LED will blink.
 
