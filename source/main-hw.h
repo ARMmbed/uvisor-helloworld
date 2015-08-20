@@ -42,8 +42,9 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF true
 #define MAIN_LED LED1
 #define MAIN_BTN USER_BUTTON
-#define MAIN_ACL(acl_list_name)                         \
-    static const UvisorBoxAclItem g_main_acl[] = {      \
+#define MAIN_ACL(acl_list_name)                           \
+    static const UvisorBoxAclItem g_main_acl[] = {        \
+        {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
     }
 
 #else
