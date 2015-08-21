@@ -4,7 +4,7 @@ This is a `Hello World!` yotta executable created to show some of the security f
 
 We propose here a challenge. For the security model to be effective, the box secret should not be in any way leaked. You can attempt whatever approach you prefer to try and read the secret. By default, the main loop continuosuly tries to verify its challenge against the box secret.
 
-We already provide one example of such approach. An on-board push-button (`SW2` on the K64F, `USER_BUTTON` on the STM32F) triggers an interrupt service routine that tries to read the secret from the (leaked) box context pointer. If the read is successful the next iteration of the password check will be successful and an LED will blink (blue on K64F, green on STM32F4). If, on the contrary, the uVisor captures the denied access, the system will halt and the red LED will blink.
+We already provide one example of such approach. See the [Run](#run) section for more information.
 
 Supported platforms:
 - [Freescale FRDM-K64F](http://developer.mbed.org/platforms/FRDM-K64F/) ([GCC ARM Embedded toolchain](https://launchpad.net/gcc-arm-embedded)).
@@ -33,8 +33,8 @@ cd uvisor-helloworld
 yotta must know which platform (target) it is building to. So we declare the target, then build.
 
 ```bash
-yt target frdm-k64f-gcc
-yt build
+yotta target frdm-k64f-gcc
+yotta build
 ```
 
 The resulting binary file will be located in
@@ -50,19 +50,21 @@ Connect your board to your computer USB port and simply drag & drop the binary f
 
 #### Run
 
-Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. If no LED blinks, it means that the program is simply comparing the password with the challenge, and the comparison is not successful. A blinking blu/green LED will signal a successful password leakage; a blinking red LED means the uVisor halted the system because of a denied access.
+Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. If no LED blinks, it means that the program is simply comparing the password with the challenge, and the comparison is not successful. A blinking blue/green LED will signal a successful password leakage; a blinking red LED means the uVisor halted the system because of a denied access.
+
+Press the on-board push-button (`SW2` on the K64F, `USER_BUTTON` on the STM32F) to trigger an interrupt service routine that tries to read the secret from the (leaked) box context pointer. If the read is successful the next iteration of the password check will be successful and an LED will blink (blue on K64F, green on STM32F4). If, on the contrary, the uVisor captures the denied access, the system will halt and the red LED will blink.
 
 ### Troubleshooting
 
 If you find any dependency problems during the build process, please make sure to use the most up-to-date versions of the linked modules. You can always update the dependencies of the linked modules:
 
 ```bash
-yt up -l
+yotta update -l
 ```
 If the build process still fails, consider cleaning the build environment:
 
 ```bash
-yt clean
+yotta clean
 ```
 Then retry the build procedure.
 
@@ -94,9 +96,9 @@ make OPT= clean release
 
 # link the newly created release to yotta
 cd ~/code/uvisor/release
-yt link
+yotta link
 
 # link your project to the newly created release
 cd ~/code/uvisor-helloworld
-yt link uvisor-lib
+yotta link uvisor-lib
 ```
