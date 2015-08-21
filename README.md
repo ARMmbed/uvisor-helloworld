@@ -48,6 +48,10 @@ The available targets for this example are:
 
 Connect your board to your computer USB port and simply drag & drop the binary file from the previous step into the `MBED` device listed in the file browser. The STM32F4 does not offer yet the possibility to drag & drop a firmware on it, so you will need to use the STMicroelectronics proprietary [software](http://www.st.com/web/en/catalog/tools/PF258168) (available on Windows only) to flash it.
 
+For Linux please use [st-flash](https://github.com/texane/stlink) for uploading new firmware to the device.
+
+On OS X [st-flash](https://github.com/texane/stlink) is available via `brew install stlink` for updating the device firmware. Please refer to [homebrew](http://brew.sh/) for more information.
+
 #### Run
 
 Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. If no LED blinks, it means that the program is simply comparing the password with the challenge, and the comparison is not successful. A blinking blue/green LED will signal a successful password leakage; a blinking red LED means the uVisor halted the system because of a denied access.
