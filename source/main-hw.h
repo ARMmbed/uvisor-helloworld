@@ -48,7 +48,14 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define MAIN_BTN USER_BUTTON
 #define MAIN_ACL(acl_list_name)                           \
     static const UvisorBoxAclItem g_main_acl[] = {        \
+        {TIM2,   sizeof(*TIM2),   UVISOR_TACLDEF_PERIPH}, \
+        {TIM5,   sizeof(*TIM5),   UVISOR_TACLDEF_PERIPH}, \
+        {GPIOA,  sizeof(*GPIOA),  UVISOR_TACLDEF_PERIPH}, \
+        {GPIOG,  sizeof(*GPIOG),  UVISOR_TACLDEF_PERIPH}, \
+        /* FIXME: secure RCC/EXTI/SYSCFG */               \
         {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
+        {EXTI,   sizeof(*EXTI),   UVISOR_TACLDEF_PERIPH}, \
+        {SYSCFG, sizeof(*SYSCFG), UVISOR_TACLDEF_PERIPH}, \
     }
 
 #else
