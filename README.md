@@ -74,9 +74,9 @@ Then retry the build procedure.
 
 ### Debugging
 
-Failures and faults captured by the uVisor will trigger a system halt. For some specific faults the uVisor will enable an LED blinking pattern which is specific to the error encountered. Please refer to the [uvisor-lib documentation](https://github.com/ARMmbed/uvisor-lib) for details.
+Failures and faults captured by the uVisor will trigger a system halt. For some specific faults the uVisor will enable an LED blinking pattern which is specific to the error encountered. Please refer to the [uvisor-lib documentation](https://github.com/ARMmbed/uvisor-lib) for a complete list of the available blinking patterns.
 
-Debugging messages are silenced by default. If you want to enabled them, you need to build a new version of uvisor-lib starting from the uVisor source code, with the debug option enabled. All messages are always printed through the semihosting interface; a debugger must be connected to the board to observe them. This process is described in the [uVisor documentation](https://github.com/ARMmbed/uvisor) and is repeated here briefly:
+Further debugging messages are silenced by default. If you want to enable them, you need to build a new version of uvisor-lib starting from the uVisor source code, with the debug option enabled. All messages are always printed through the semihosting interface, hence a debugger must be connected to the board to observe them. Make sure you have the latest [uVisor source code](https://github.com/ARMmbed/uvisor) and proceede as follows:
 
 ```bash
 # assuming this is your code tree:
