@@ -1,6 +1,6 @@
 {
   "name": "uvisor-helloworld",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "Hello world example with uVisor enabled",
   "keywords": [],
   "author": "Alessandro Angelino <alessandro.angelino@arm.com>",
