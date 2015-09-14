@@ -60,6 +60,8 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 
 #else
 
+#define LED_ON  true
+#define LED_OFF false
 #define MAIN_LED NC
 #define MAIN_BTN NC
 #define MAIN_ACL(acl_list_name) \
