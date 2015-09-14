@@ -17,7 +17,11 @@ PROJECT:=uvisor-helloworld
 
 ifeq ("$(ARCH)","MK64F")
 	CPU:=$(ARCH)N1M0XXX12
+ifeq ("$(TOOL)","armcc")
+	YT_TARGET:=frdm-k64f-armcc
+else
 	YT_TARGET:=frdm-k64f-gcc
+endif
 	GDB_TARGET:=k64f
 else
 	ARCH:=STM32F
@@ -71,12 +75,12 @@ all: debug gdbtui
 setup:
 	yotta target $(YT_TARGET)
 
-debug:
+debug: setup
 	yotta build -d -- -j8
 	$(OBJDUMP) -d $(TARGET) > $(PROJECT).asm
 	@$(PREFIX)size $(TARGET)
 
-release:
+release: setup
 	yotta build -r -- -j8
 	$(OBJDUMP) -d $(TARGET) > $(PROJECT).asm
 	@$(PREFIX)size $(TARGET)
