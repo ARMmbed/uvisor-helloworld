@@ -51,7 +51,7 @@ static void flick_led_on(void)
 
     /* schedule disabling of LED */
     minar::Scheduler::postCallback(FunctionPointer0<void>(flick_led_off).bind())
-        .period(minar::milliseconds(delay))
+        .delay(minar::milliseconds(delay))
         .tolerance(minar::milliseconds(1));
 }
 
