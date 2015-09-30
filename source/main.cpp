@@ -15,10 +15,14 @@
  * limitations under the License.
  */
 #include "mbed/mbed.h"
+#include "minar/minar.h"
+#include "core-util/FunctionPointer.h"
 #include "uvisor-lib/uvisor-lib.h"
 #include "main-hw.h"
 #include "box-challenge.h"
 #include "btn.h"
+
+using mbed::util::FunctionPointer0;
 
 /* create ACLs for main box */
 MAIN_ACL(g_main_acl);
@@ -29,6 +33,27 @@ UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
 DigitalOut led(MAIN_LED);
 
 uint8_t g_challenge[CHALLENGE_SIZE];
+
+static void flick_led_off(void)
+{
+    led = LED_OFF;
+}
+
+static void flick_led_on(void)
+{
+    uint32_t delay;
+
+    /* turn LED on */
+    led = LED_ON;
+
+    /* check for secret */
+    delay = verify_secret(g_challenge, sizeof(g_challenge)) ? 500 : 10;
+
+    /* schedule disabling of LED */
+    minar::Scheduler::postCallback(FunctionPointer0<void>(flick_led_off).bind())
+        .period(minar::milliseconds(delay))
+        .tolerance(minar::milliseconds(1));
+}
 
 void app_start(int, char *[])
 {
@@ -41,17 +66,8 @@ void app_start(int, char *[])
     /* configure pushbutton */
     btn_init();
 
-    while(1) {
-        /* check for secret */
-        if(verify_secret(g_challenge, sizeof(g_challenge)))
-        {
-            /* send LED pulse if the secret was found */
-            led = LED_ON;
-            wait(.4);
-            led = LED_OFF;
-        }
-
-        /* wait before trying again */
-        wait(2.0);
-    }
+    /* toggle LED */
+    minar::Scheduler::postCallback(FunctionPointer0<void>(flick_led_on).bind())
+        .period(minar::milliseconds(1000))
+        .tolerance(minar::milliseconds(100));
 }
