@@ -18,17 +18,17 @@
 #define __BOX_CHALLENGE_HW_H__
 
 /* target specifc ACLs */
-#if   defined(TARGET_LIKE_FRDM_K64F_GCC)
+#if   defined(TARGET_LIKE_FRDM_K64F)
 
 #define BOX_CHALLENGE_ACL(acl_list_name) \
-    static const UvisorBoxAclItem g_box_acl[] = {       \
+    static const UvisorBoxAclItem acl_list_name[] = {   \
         {RNG,   sizeof(*RNG),   UVISOR_TACLDEF_PERIPH}  \
     }
 
-#elif defined(TARGET_LIKE_STM32F429I_DISCO_GCC)
+#elif defined(TARGET_LIKE_STM32F429I_DISCO)
 
 #define BOX_CHALLENGE_ACL(acl_list_name) \
-    static const UvisorBoxAclItem g_box_acl[] = {       \
+    static const UvisorBoxAclItem acl_list_name[] = {   \
         {RNG,   sizeof(*RNG),   UVISOR_TACLDEF_PERIPH}  \
     }
 
