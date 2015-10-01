@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __MAIN_HW_H__
-#define __MAIN_HW_H__
+#ifndef __UVISOR_HELLOWORLD_MAIN_HW_H__
+#define __UVISOR_HELLOWORLD_MAIN_HW_H__
 
 /* the vector containing the challenge is shared with the push-button ISR, so
  * that it can attempt to access it from an IRQ context */
@@ -69,4 +69,4 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 
 #endif
 
-#endif/*__MAIN_HW_H__*/
+#endif/*__UVISOR_HELLOWORLD_MAIN_HW_H__*/

@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __BTN_H__
-#define __BTN_H__
+#ifndef __UVISOR_HELLOWORLD_BTN_H__
+#define __UVISOR_HELLOWORLD_BTN_H__
 
 void btn_init(void);
 
-#endif/*__BTN_H__*/
+#endif/*__UVISOR_HELLOWORLD_BTN_H__*/

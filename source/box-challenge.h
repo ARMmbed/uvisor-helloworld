@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __BOX_CHALLENGE_H__
-#define __BOX_CHALLENGE_H__
+#ifndef __UVISOR_HELLOWORLD_BOX_CHALLENGE_H__
+#define __UVISOR_HELLOWORLD_BOX_CHALLENGE_H__
 
 #define CHALLENGE_SIZE 16
 
 extern bool verify_secret(const uint8_t *secret, int len);
 extern void *g_box_context;
 
-#endif/*__BOX_CHALLENGE_H__*/
+#endif/*__UVISOR_HELLOWORLD_BOX_CHALLENGE_H__*/
