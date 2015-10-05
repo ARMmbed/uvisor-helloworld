@@ -1,12 +1,11 @@
 # vim files
 *.sw*
+
+# yotta files and folders
 *.asm
-.vim.custom
 .yotta.json
 gdb.script
 upload.tar.gz
-
-# yotta build folders
 build
 yotta_targets
 yotta_modules
