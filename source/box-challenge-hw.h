@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __BOX_CHALLENGE_HW_H__
-#define __BOX_CHALLENGE_HW_H__
+#ifndef __UVISOR_HELLOWORLD_BOX_CHALLENGE_HW_H__
+#define __UVISOR_HELLOWORLD_BOX_CHALLENGE_HW_H__
 
 /* target specifc ACLs */
-#if   defined(TARGET_LIKE_FRDM_K64F_GCC)
+#if   defined(TARGET_LIKE_FRDM_K64F)
 
 #define BOX_CHALLENGE_ACL(acl_list_name) \
-    static const UvisorBoxAclItem g_box_acl[] = {       \
+    static const UvisorBoxAclItem acl_list_name[] = {   \
         {RNG,   sizeof(*RNG),   UVISOR_TACLDEF_PERIPH}  \
     }
 
-#elif defined(TARGET_LIKE_STM32F429I_DISCO_GCC)
+#elif defined(TARGET_LIKE_STM32F429I_DISCO)
 
 #define BOX_CHALLENGE_ACL(acl_list_name) \
-    static const UvisorBoxAclItem g_box_acl[] = {       \
+    static const UvisorBoxAclItem acl_list_name[] = {   \
         {RNG,   sizeof(*RNG),   UVISOR_TACLDEF_PERIPH}  \
     }
 
@@ -39,4 +39,4 @@
 
 #endif
 
-#endif/*__BOX_CHALLENGE_HW_H__*/
+#endif/*__UVISOR_HELLOWORLD_BOX_CHALLENGE_HW_H__*/

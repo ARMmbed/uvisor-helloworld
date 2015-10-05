@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __MAIN_HW_H__
-#define __MAIN_HW_H__
+#ifndef __UVISOR_HELLOWORLD_MAIN_HW_H__
+#define __UVISOR_HELLOWORLD_MAIN_HW_H__
 
 /* the vector containing the challenge is shared with the push-button ISR, so
  * that it can attempt to access it from an IRQ context */
@@ -23,14 +23,14 @@
 extern uint8_t g_challenge[CHALLENGE_SIZE];
 
 /* target specifc ACLs */
-#if   defined(TARGET_LIKE_FRDM_K64F_GCC)
+#if   defined(TARGET_LIKE_FRDM_K64F)
 
 #define LED_ON  false
 #define LED_OFF true
 #define MAIN_LED LED_BLUE
 #define MAIN_BTN SW2
 #define MAIN_ACL(acl_list_name) \
-    static const UvisorBoxAclItem g_main_acl[] = {      \
+    static const UvisorBoxAclItem acl_list_name[] = {     \
         {MCG,    sizeof(*MCG),    UVISOR_TACLDEF_PERIPH}, \
         {SIM,    sizeof(*SIM),    UVISOR_TACLDEF_PERIPH}, \
         {PORTB,  sizeof(*PORTB),  UVISOR_TACLDEF_PERIPH}, \
@@ -40,14 +40,14 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {PIT,    sizeof(*PIT),    UVISOR_TACLDEF_PERIPH}, \
     }
 
-#elif defined(TARGET_LIKE_STM32F429I_DISCO_GCC)
+#elif defined(TARGET_LIKE_STM32F429I_DISCO)
 
 #define LED_ON  false
 #define LED_OFF true
 #define MAIN_LED LED1
 #define MAIN_BTN USER_BUTTON
 #define MAIN_ACL(acl_list_name)                           \
-    static const UvisorBoxAclItem g_main_acl[] = {        \
+    static const UvisorBoxAclItem acl_list_name[] = {     \
         {TIM2,   sizeof(*TIM2),   UVISOR_TACLDEF_PERIPH}, \
         {TIM5,   sizeof(*TIM5),   UVISOR_TACLDEF_PERIPH}, \
         {GPIOA,  sizeof(*GPIOA),  UVISOR_TACLDEF_PERIPH}, \
@@ -69,4 +69,4 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 
 #endif
 
-#endif/*__MAIN_HW_H__*/
+#endif/*__UVISOR_HELLOWORLD_MAIN_HW_H__*/
