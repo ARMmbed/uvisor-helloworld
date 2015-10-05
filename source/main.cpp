@@ -33,26 +33,28 @@ UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
 DigitalOut led(MAIN_LED);
 
 uint8_t g_challenge[CHALLENGE_SIZE];
+minar::Scheduler *g_scheduler;
+minar::callback_handle_t g_event = NULL;
 
-static void flick_led_off(void)
+static void toggle_led(void)
 {
-    led = LED_OFF;
+    led = !led;
 }
 
-static void flick_led_on(void)
+static void retry_secret(void)
 {
-    uint32_t delay;
+    /* check secret */
+    bool verified = verify_secret(g_challenge, sizeof(g_challenge));
 
-    /* turn LED on */
-    led = LED_ON;
+    /* cancel previous event for LED blinking */
+    g_scheduler->cancelCallback(g_event);
 
-    /* check for secret */
-    delay = verify_secret(g_challenge, sizeof(g_challenge)) ? 500 : 10;
-
-    /* schedule disabling of LED */
-    minar::Scheduler::postCallback(FunctionPointer0<void>(flick_led_off).bind())
-        .delay(minar::milliseconds(delay))
-        .tolerance(minar::milliseconds(1));
+    /* schedule new LED blinking pattern */
+    /* the blinking frequency will be faster if the secret has been verified */
+    g_event = minar::Scheduler::postCallback(FunctionPointer0<void>(toggle_led).bind())
+                .period(minar::milliseconds(verified ? 100 : 500))
+                .tolerance(minar::milliseconds(1))
+                .getHandle();
 }
 
 void app_start(int, char *[])
@@ -66,8 +68,11 @@ void app_start(int, char *[])
     /* configure pushbutton */
     btn_init();
 
-    /* toggle LED */
-    minar::Scheduler::postCallback(FunctionPointer0<void>(flick_led_on).bind())
+    /* get handle of scheduler */
+    g_scheduler = minar::Scheduler::instance();
+
+    /* schedule event to periodically check for secret */
+    minar::Scheduler::postCallback(FunctionPointer0<void>(retry_secret).bind())
         .period(minar::milliseconds(1000))
         .tolerance(minar::milliseconds(100));
 }
