@@ -29,8 +29,8 @@ else
 endif
 	GDB_TARGET:=k64f
 else
-	ARCH:=STM32F
-	CPU:=$(ARCH)429ZI
+	ARCH:=STM32F4
+	CPU:=$(ARCH)29ZI
 	YT_TARGET:=stm32f429i-disco-gcc
 	GDB_TARGET:=stm32f4
 endif
