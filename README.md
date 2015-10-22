@@ -2,7 +2,7 @@
 
 This is a `Hello World!` yotta executable created to show some of the security features provided by the uVisor. The application hosts a secure box that is able to generate a secret at runtime. The secret is stored in the box context, so it is protected by uVisor against the rest of the code.
 
-We propose here a challenge. For the security model to be effective, the box secret should not be in any way leaked. You can attempt whatever approach you prefer to try and read the secret. By default, the main loop continuosuly tries to verify its challenge against the box secret.
+We propose here a challenge. For the security model to be effective, the box secret should not be in any way leaked. You can attempt whatever approach you prefer to try and read the secret. By default, the main event continuosuly tries to verify its challenge against the box secret.
 
 We already provide one example of such approach. See the [Run](#run) section for more information.
 
@@ -54,9 +54,9 @@ On OS X [st-flash](https://github.com/texane/stlink) is available via `brew inst
 
 #### Run
 
-Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. If no LED blinks, it means that the program is simply comparing the password with the challenge, and the comparison is not successful. A blinking blue/green LED will signal a successful password leakage; a blinking red LED means the uVisor halted the system because of a denied access.
+Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. When the blue (K64F) or green (STM32F4) LED blinks with a 1s period, it means that the program is simply comparing the password with the challenge, the comparison is not successful and it is ready to try again.
 
-Press the on-board push-button (`SW2` on the K64F, `USER_BUTTON` on the STM32F) to trigger an interrupt service routine that tries to read the secret from the (leaked) box context pointer. If the read is successful the next iteration of the password check will be successful and an LED will blink (blue on K64F, green on STM32F4). If, on the contrary, the uVisor captures the denied access, the system will halt and the red LED will blink.
+If you press the on-board push-button (`SW2` on the K64F, `USER` on the STM32F) you will trigger an interrupt service routine that tries to read the secret from the (leaked) secure box context pointer. If the read is successful the blue/green LED starts blinking faster (period of 200ms). If the uVisor captures the denied access, the system will halt and the red LED will blink (`PERMISSION_DENIED` error code). On the K64F do not use `SW3`, as it triggers a non-maskable intterrupt, which is currently unsupported and results in a halt with a `NOT_ALLOWED` error code.
 
 ### Troubleshooting
 
@@ -74,7 +74,7 @@ Then retry the build procedure.
 
 ### Debugging
 
-Failures and faults captured by the uVisor will trigger a system halt. For some specific faults the uVisor will enable an LED blinking pattern which is specific to the error encountered. Please refer to the [uvisor-lib documentation](https://github.com/ARMmbed/uvisor-lib) for a complete list of the available blinking patterns.
+Failures and faults captured by the uVisor will trigger a system halt. For some specific faults the uVisor will enable an LED blinking pattern which is specific to the error encountered. Please refer to the [uvisor-lib documentation](https://github.com/ARMmbed/uvisor-lib/blob/master/DOCUMENTATION.md#error-patterns) for a complete list of the available blinking patterns.
 
 Further debugging messages are silenced by default. If you want to enable them, you need to build a new version of uvisor-lib starting from the uVisor source code, with the debug option enabled. All messages are always printed through the semihosting interface, hence a debugger must be connected to the board to observe them. Make sure you have the latest [uVisor source code](https://github.com/ARMmbed/uvisor) and proceede as follows:
 
