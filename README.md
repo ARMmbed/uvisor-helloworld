@@ -54,7 +54,9 @@ On OS X [st-flash](https://github.com/texane/stlink) is available via `brew inst
 
 #### Run
 
-Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. If a blue/green LED blinks with a 1s period, it means that the program is simply comparing the password with the challenge, the comparison is not successful and it is ready to try again. If the blue/green LED starts blinking faster (period of 200ms) then a successful password leakage occurred; a blinking red LED means the uVisor halted the system because of a denied access.
+Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. When the blue (K64F) or green (STM32F4) LED blinks with a 1s period, it means that the program is simply comparing the password with the challenge, the comparison is not successful and it is ready to try again.
+
+If you press the on-board push-button (`SW2` on the K64F, `USER` on the STM32F) you will trigger an interrupt service routine that tries to read the secret from the (leaked) secure box context pointer. If the read is successful the blue/green LED starts blinking faster (period of 200ms). If the uVisor captures the denied access, the system will halt and the red LED will blink (`PERMISSION_DENIED` error code). On the K64F do not use `SW3`, as it triggers a non-maskable intterrupt, which is currently unsupported and results in a halt with a `NOT_ALLOWED` error code.
 
 ### Troubleshooting
 
