@@ -52,10 +52,11 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {TIM5,   sizeof(*TIM5),   UVISOR_TACLDEF_PERIPH}, \
         {GPIOA,  sizeof(*GPIOA),  UVISOR_TACLDEF_PERIPH}, \
         {GPIOG,  sizeof(*GPIOG),  UVISOR_TACLDEF_PERIPH}, \
-        /* FIXME: secure RCC/EXTI/SYSCFG */               \
+        /* FIXME: secure RCC/EXTI/SYSCFG/FLASH */         \
         {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
         {EXTI,   sizeof(*EXTI),   UVISOR_TACLDEF_PERIPH}, \
         {SYSCFG, sizeof(*SYSCFG), UVISOR_TACLDEF_PERIPH}, \
+        {FLASH,  sizeof(*FLASH),  UVISOR_TACLDEF_PERIPH}, \
     }
 
 #else

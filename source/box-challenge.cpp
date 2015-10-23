@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "mbed/mbed.h"
+#include "mbed-drivers/mbed.h"
 #include "uvisor-lib/uvisor-lib.h"
 #include "box-challenge.h"
 #include "box-challenge-hw.h"
