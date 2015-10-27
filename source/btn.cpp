@@ -33,7 +33,7 @@ static void btn_onpress(void)
 void btn_init(void)
 {
     /* configure pushbutton */
-    btn.mode(PullUp);
+    btn.mode(MAIN_BTN_PUPD);
     wait(.01);
     btn.fall(&btn_onpress);
 }
