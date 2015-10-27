@@ -57,6 +57,9 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {EXTI,   sizeof(*EXTI),   UVISOR_TACLDEF_PERIPH}, \
         {SYSCFG, sizeof(*SYSCFG), UVISOR_TACLDEF_PERIPH}, \
         {FLASH,  sizeof(*FLASH),  UVISOR_TACLDEF_PERIPH}, \
+        {PWR,    sizeof(*PWR),    UVISOR_TACLDEF_PERIPH}, \
+        {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
+        {(void *) 0x42470000, 0x1000, UVISOR_TACLDEF_PERIPH}, \
     }
 
 #else
