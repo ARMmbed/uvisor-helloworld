@@ -29,6 +29,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF true
 #define MAIN_LED LED_BLUE
 #define MAIN_BTN SW2
+#define MAIN_BTN_PUPD PullUp
 #define MAIN_ACL(acl_list_name) \
     static const UvisorBoxAclItem acl_list_name[] = {     \
         {MCG,    sizeof(*MCG),    UVISOR_TACLDEF_PERIPH}, \
@@ -46,6 +47,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF true
 #define MAIN_LED LED1
 #define MAIN_BTN USER_BUTTON
+#define MAIN_BTN_PUPD PullDown
 #define MAIN_ACL(acl_list_name)                           \
     static const UvisorBoxAclItem acl_list_name[] = {     \
         {TIM2,   sizeof(*TIM2),   UVISOR_TACLDEF_PERIPH}, \
@@ -68,6 +70,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF false
 #define MAIN_LED NC
 #define MAIN_BTN NC
+#define MAIN_BTN_PUPD NC
 #define MAIN_ACL(acl_list_name) \
     static const UvisorBoxAclItem acl_list_name[] = {}
 
