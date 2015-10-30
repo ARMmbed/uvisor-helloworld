@@ -40,6 +40,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {LPTMR0, sizeof(*LPTMR0), UVISOR_TACLDEF_PERIPH}, \
         {PIT,    sizeof(*PIT),    UVISOR_TACLDEF_PERIPH}, \
         {SMC,    sizeof(*SMC),    UVISOR_TACLDEF_PERIPH}, \
+        {UART0,  sizeof(*UART0),  UVISOR_TACLDEF_PERIPH}, \
     }
 
 #elif defined(TARGET_LIKE_STM32F429I_DISCO)
@@ -62,6 +63,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {FLASH,  sizeof(*FLASH),  UVISOR_TACLDEF_PERIPH}, \
         {PWR,    sizeof(*PWR),    UVISOR_TACLDEF_PERIPH}, \
         {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
+        {USART1, sizeof(*USART1), UVISOR_TACLDEF_PERIPH}, \
         {(void *) 0x42470000, 0x1000, UVISOR_TACLDEF_PERIPH}, \
     }
 
