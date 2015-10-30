@@ -39,6 +39,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {RTC,    sizeof(*RTC),    UVISOR_TACLDEF_PERIPH}, \
         {LPTMR0, sizeof(*LPTMR0), UVISOR_TACLDEF_PERIPH}, \
         {PIT,    sizeof(*PIT),    UVISOR_TACLDEF_PERIPH}, \
+        {SMC,    sizeof(*SMC),    UVISOR_TACLDEF_PERIPH}, \
     }
 
 #elif defined(TARGET_LIKE_STM32F429I_DISCO)
