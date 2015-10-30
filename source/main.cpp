@@ -44,7 +44,9 @@ static void toggle_led(void)
 static void retry_secret(void)
 {
     /* check secret */
+    printf("verifying secret...");
     bool verified = verify_secret(g_challenge, sizeof(g_challenge));
+    printf(" done\n\r");
 
     /* cancel previous event for LED blinking */
     g_scheduler->cancelCallback(g_event);
@@ -59,6 +61,8 @@ static void retry_secret(void)
 
 void app_start(int, char *[])
 {
+    printf("***** uvisor-helloworld example *****\n\r");
+
     /* reset challenge */
     memset(&g_challenge, 0, sizeof(g_challenge));
 
@@ -75,4 +79,6 @@ void app_start(int, char *[])
     minar::Scheduler::postCallback(FunctionPointer0<void>(retry_secret).bind())
         .period(minar::milliseconds(1000))
         .tolerance(minar::milliseconds(100));
+
+    printf("main unprivileged box configured\n\r");
 }
