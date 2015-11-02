@@ -31,6 +31,7 @@ MAIN_ACL(g_main_acl);
 UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
 
 DigitalOut led(MAIN_LED);
+Serial pc(USBTX, USBRX);
 
 uint8_t g_challenge[CHALLENGE_SIZE];
 minar::Scheduler *g_scheduler;
@@ -44,9 +45,9 @@ static void toggle_led(void)
 static void retry_secret(void)
 {
     /* check secret */
-    printf("verifying secret...");
+    pc.printf("verifying secret...");
     bool verified = verify_secret(g_challenge, sizeof(g_challenge));
-    printf(" done\n\r");
+    pc.printf(" done\n\r");
 
     /* cancel previous event for LED blinking */
     g_scheduler->cancelCallback(g_event);
@@ -61,7 +62,10 @@ static void retry_secret(void)
 
 void app_start(int, char *[])
 {
-    printf("***** uvisor-helloworld example *****\n\r");
+    /* set the console baud-rate */
+    pc.baud(115200);
+
+    pc.printf("***** uvisor-helloworld example *****\n\r");
 
     /* reset challenge */
     memset(&g_challenge, 0, sizeof(g_challenge));
@@ -80,5 +84,5 @@ void app_start(int, char *[])
         .period(minar::milliseconds(1000))
         .tolerance(minar::milliseconds(100));
 
-    printf("main unprivileged box configured\n\r");
+    pc.printf("main unprivileged box configured\n\r");
 }
