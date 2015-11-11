@@ -1,16 +1,16 @@
-## `Hello World!` Example for the uVisor
+## Hello World Example for the uVisor
 
-This is a `Hello World!` yotta executable created to show some of the security features provided by the uVisor. The application hosts a secure box that is able to generate a secret at runtime. The secret is stored in the box context, so it is protected by uVisor against the rest of the code.
+This is a Hello World yotta executable created to show some of the security features provided by the uVisor. The application hosts a secure box that is able to generate a secret at runtime. The secret is stored in the box context, so it is protected by uVisor against the rest of the code.
 
-We propose here a challenge. For the security model to be effective, the box secret should not be in any way leaked. You can attempt whatever approach you prefer to try and read the secret. By default, the main event continuosuly tries to verify its challenge against the box secret.
+This is a challenge. For the security model to be effective, the box secret must not be leaked in any way. You can attempt whatever approach you prefer to try and read the secret. By default, the main event in this application continuously tries to verify its challenge against the box secret.
 
-We already provide one example of such approach. See the [Run](#run) section for more information.
+We already provide one example of such an approach. See the [Run](#run) section for more information.
 
 Supported platforms:
 - [Freescale FRDM-K64F](http://developer.mbed.org/platforms/FRDM-K64F/) ([GCC ARM Embedded toolchain](https://launchpad.net/gcc-arm-embedded)).
 - [STMicorelectronics STM32F429I-DISCO](http://www.st.com/web/catalog/tools/FM116/SC959/SS1532/PF259090) ([GCC ARM Embedded toolchain](https://launchpad.net/gcc-arm-embedded)).
 
-This example relies on the security features provided by the uVisor yotta module, called uvisor-lib. Refer to its [documentation](https://github.com/ARMmbed/uvisor-lib) for implementation-specific details. Please note that the [official documentation](https://github.com/ARMmbed/uvisor) for the uVisor describes the higher level security model, instead.
+This example relies on the security features provided by the uVisor yotta module, called `uvisor-lib`. Refer to its [documentation](https://github.com/ARMmbed/uvisor-lib) for implementation-specific details. Please note that the [official documentation](https://github.com/ARMmbed/uvisor) for the uVisor describes the higher level security model, instead.
 
 ### How To
 
@@ -54,23 +54,9 @@ On OS X [st-flash](https://github.com/texane/stlink) is available via `brew inst
 
 #### Run
 
-Hit the reset button after flashing to start program execution. The application will be running right after you reset the processor. When the blue (K64F) or green (STM32F4) LED blinks with a 1s period, it means that the program is simply comparing the password with the challenge, the comparison is not successful and it is ready to try again.
+Hit the reset button after flashing to start program execution. The application starts running right after you reset the processor. When the blue (K64F) or green (STM32F4) LED blinks with a 1s period, it means that the program is simply comparing the password with the challenge, the comparison is not successful and it is ready to try again.
 
-If you press the on-board push-button (`SW2` on the K64F, `USER` on the STM32F) you will trigger an interrupt service routine that tries to read the secret from the (leaked) secure box context pointer. If the read is successful the blue/green LED starts blinking faster (period of 200ms). If the uVisor captures the denied access, the system will halt and the red LED will blink (`PERMISSION_DENIED` error code). On the K64F do not use `SW3`, as it triggers a non-maskable intterrupt, which is currently unsupported and results in a halt with a `NOT_ALLOWED` error code.
-
-### Troubleshooting
-
-If you find any dependency problems during the build process, please make sure to use the most up-to-date versions of the linked modules. You can always update the dependencies of the linked modules:
-
-```bash
-yotta update -l
-```
-If the build process still fails, consider cleaning the build environment:
-
-```bash
-yotta clean
-```
-Then retry the build procedure.
+If you press the on-board push-button (`SW2` on the K64F, `USER` on the STM32F4), you trigger an interrupt service routine that tries to read the secret from the (leaked) secure box context pointer. If the read is successful the same LED starts blinking faster (a period of 200ms). If the uVisor captures the denied access, the system halts and the red LED blinks (`PERMISSION_DENIED` error code). On the K64F do not use `SW3`, as it triggers a non-maskable interrupt, which is currently unsupported and results in a halt with a `NOT_ALLOWED` error code.
 
 ### Debugging
 
