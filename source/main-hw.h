@@ -67,6 +67,51 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {(void *) 0x42470000, 0x1000, UVISOR_TACLDEF_PERIPH}, \
     }
 
+#elif defined(TARGET_LIKE_NUCLEO_F401RE)
+
+#define LED_ON  false
+#define LED_OFF true
+#define MAIN_LED LED1
+#define MAIN_BTN USER_BUTTON
+#define MAIN_BTN_PUPD PullDown
+#define MAIN_ACL(acl_list_name)                           \
+    static const UvisorBoxAclItem acl_list_name[] = {     \
+        {TIM2,   sizeof(*TIM2),   UVISOR_TACLDEF_PERIPH}, \
+        {TIM5,   sizeof(*TIM5),   UVISOR_TACLDEF_PERIPH}, \
+        {GPIOA,  sizeof(*GPIOA),  UVISOR_TACLDEF_PERIPH}, \
+        /* FIXME: secure RCC/EXTI/SYSCFG/FLASH */         \
+        {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
+        {EXTI,   sizeof(*EXTI),   UVISOR_TACLDEF_PERIPH}, \
+        {SYSCFG, sizeof(*SYSCFG), UVISOR_TACLDEF_PERIPH}, \
+        {FLASH,  sizeof(*FLASH),  UVISOR_TACLDEF_PERIPH}, \
+        {PWR,    sizeof(*PWR),    UVISOR_TACLDEF_PERIPH}, \
+        {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
+        {USART1, sizeof(*USART1), UVISOR_TACLDEF_PERIPH}, \
+        {(void *) 0x42470000, 0x1000, UVISOR_TACLDEF_PERIPH}, \
+    }
+
+#elif defined(TARGET_LIKE_NUCLEO_F091RC)
+
+#define LED_ON  false
+#define LED_OFF true
+#define MAIN_LED LED1
+#define MAIN_BTN USER_BUTTON
+#define MAIN_BTN_PUPD PullDown
+#define MAIN_ACL(acl_list_name)                           \
+    static const UvisorBoxAclItem acl_list_name[] = {     \
+        {TIM2,   sizeof(*TIM2),   UVISOR_TACLDEF_PERIPH}, \
+        {GPIOA,  sizeof(*GPIOA),  UVISOR_TACLDEF_PERIPH}, \
+        /* FIXME: secure RCC/EXTI/SYSCFG/FLASH */         \
+        {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
+        {EXTI,   sizeof(*EXTI),   UVISOR_TACLDEF_PERIPH}, \
+        {SYSCFG, sizeof(*SYSCFG), UVISOR_TACLDEF_PERIPH}, \
+        {FLASH,  sizeof(*FLASH),  UVISOR_TACLDEF_PERIPH}, \
+        {PWR,    sizeof(*PWR),    UVISOR_TACLDEF_PERIPH}, \
+        {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
+        {USART1, sizeof(*USART1), UVISOR_TACLDEF_PERIPH}, \
+        {(void *) 0x42470000, 0x1000, UVISOR_TACLDEF_PERIPH}, \
+    }
+    
 #else
 
 #define LED_ON  true
