@@ -73,7 +73,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF false
 #define MAIN_LED NC
 #define MAIN_BTN NC
-#define MAIN_BTN_PUPD NC
+#define MAIN_BTN_PUPD PullNone
 #define MAIN_ACL(acl_list_name) \
     static const UvisorBoxAclItem acl_list_name[] = {}
 
