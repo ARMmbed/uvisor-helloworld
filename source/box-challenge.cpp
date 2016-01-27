@@ -62,7 +62,16 @@ static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
 
 UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
 {
-    /* only accept the right challenge size */
+    /* We only accept calls where 'len' equals CHALLENGE_SIZE.
+     * Although this creates a timing side channel which exposes the
+     * CHALLENGE_SIZE to an attacker, we accept that side channel
+     * as CHALLENGE_SIZE is exposed to the caller anyway as part of
+     * the box headers.
+     *
+     * It's primarily a safety feature to ensure that caller and callee
+     * share the same view of CHALLENGE_SIZE during runtime. The
+     * security impact on this example is negligible.
+     */
     if(len!=CHALLENGE_SIZE)
         return false;
 
