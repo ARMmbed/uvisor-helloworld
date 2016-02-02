@@ -27,7 +27,7 @@ typedef struct {
 /* create ACLs for secret data section */
 BOX_CHALLENGE_ACL(g_box_acl);
 
-/* configure secure box compartnent and reserve box context */
+/* configure secure box compartment and reserve box context */
 UVISOR_BOX_CONFIG(box_challenge, g_box_acl, UVISOR_BOX_STACK_SIZE, BoxContext);
 
 void *g_box_context;
