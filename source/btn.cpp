@@ -50,4 +50,12 @@ void btn_init(void)
     minar::Scheduler::postCallback(FunctionPointer0<void>(btn_set_fall).bind())
         .delay(minar::milliseconds(10))
         .tolerance(minar::milliseconds(1));
+
+    /* Set a callback to do the equivalent of pushing the button for us. Every
+     * period, press the button automatically. Pressing the button
+     * automatically after a certain period of time allows us to trigger button
+     * presses even for platforms without physically pressable buttons. */
+    minar::Scheduler::postCallback(FunctionPointer0<void>(btn_onpress).bind())
+        .period(minar::milliseconds(10000))
+        .tolerance(minar::milliseconds(100));
 }
