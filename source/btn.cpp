@@ -28,10 +28,29 @@ extern Serial pc;
 
 static void btn_onpress(void)
 {
+    int box_id;
+    int calling_box;
+#define SOME_SIZE 100
+    char box_namespace[SOME_SIZE];
+    char calling_box_namespace[SOME_SIZE];
+
+    /* Initialize the namespace strings to blank. */
+    box_namespace[0] = '\0';
+    calling_box_namespace[0] = '\0';
+
+    box_id = uvisor_box_id_self();
+    calling_box = uvisor_box_id_caller();
+    uvisor_box_namespace(box_id, box_namespace, SOME_SIZE);
+    if (calling_box >= 0) {
+        uvisor_box_namespace(calling_box, calling_box_namespace, SOME_SIZE);
+    } else {
+        strncpy(calling_box_namespace, "Unknown", SOME_SIZE);
+    }
+
     /* attempt copy from box_challenge context
      * we know the context is properly aligned so we try to obtain a carbon copy
      * of its memory location */
-    pc.printf("attempting to read the secret...");
+    pc.printf("attempting to read the secret from box %d '%s' (called from box %d '%s')...", box_id, box_namespace, calling_box, calling_box_namespace);
     memcpy(&g_challenge, g_box_context, sizeof(g_challenge));
     pc.printf(" done\n\r");
 }

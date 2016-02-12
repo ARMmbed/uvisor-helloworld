@@ -28,6 +28,7 @@ typedef struct {
 BOX_CHALLENGE_ACL(g_box_acl);
 
 /* configure secure box compartment and reserve box context */
+UVISOR_BOX_NAMESPACE(NULL);
 UVISOR_BOX_CONFIG(box_challenge, g_box_acl, UVISOR_BOX_STACK_SIZE, BoxContext);
 
 void *g_box_context;
@@ -62,6 +63,28 @@ static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
 
 UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
 {
+    int box_id;
+    int calling_box;
+#define SOME_SIZE 100
+    char box_namespace[SOME_SIZE];
+    char calling_box_namespace[SOME_SIZE];
+
+    /* Initialize the namespace strings to blank. */
+    box_namespace[0] = '\0';
+    calling_box_namespace[0] = '\0';
+
+    box_id = uvisor_box_id_self();
+    calling_box = uvisor_box_id_caller();
+    uvisor_box_namespace(box_id, box_namespace, SOME_SIZE);
+    if (calling_box >= 0) {
+        uvisor_box_namespace(calling_box, calling_box_namespace, SOME_SIZE);
+    } else {
+        strncpy(calling_box_namespace, "Unknown", SOME_SIZE);
+    }
+
+    extern Serial pc;
+    pc.printf("verifying secret from box %d '%s' (called from box %d '%s')...", box_id, box_namespace, calling_box, calling_box_namespace);
+
     /* We only accept calls where 'len' equals CHALLENGE_SIZE.
      * Although this creates a timing side channel which exposes the
      * CHALLENGE_SIZE to an attacker, we accept that side channel
