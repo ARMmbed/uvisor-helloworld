@@ -77,10 +77,12 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
 
     /* FIXME verify that secret pointer points outside of box stack context */
 
-    /* generate new secret on the first run
-     * FIXME enable clocks for HW-RNG */
-    if(!uvisor_ctx->initialized)
+    /* Generate new secret on the first run. */
+    /* FIXME enable clocks for HW-RNG */
+    if (!uvisor_ctx->initialized) {
         randomize_new_secret();
+        uvisor_ctx->initialized = true;
+    }
 
     return secure_compare(secret, uvisor_ctx->secret, len);
 }
