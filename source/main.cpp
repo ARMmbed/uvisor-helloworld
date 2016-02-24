@@ -31,7 +31,7 @@ MAIN_ACL(g_main_acl);
 UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
 
 DigitalOut led(MAIN_LED);
-Serial pc(USBTX, USBRX);
+Serial pc(STDIO_UART_TX, STDIO_UART_RX);
 
 uint8_t g_challenge[CHALLENGE_SIZE];
 minar::Scheduler *g_scheduler;

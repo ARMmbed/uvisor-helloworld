@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 #include "mbed-drivers/mbed.h"
+#include "minar/minar.h"
 #include "uvisor-lib/uvisor-lib.h"
 #include "btn.h"
 #include "main-hw.h"
 #include "box-challenge.h"
+
+using mbed::util::FunctionPointer0;
 
 InterruptIn btn(MAIN_BTN);
 extern Serial pc;
@@ -33,10 +36,26 @@ static void btn_onpress(void)
     pc.printf(" done\n\r");
 }
 
+static void btn_set_fall(void)
+{
+    btn.fall(&btn_onpress);
+}
+
 void btn_init(void)
 {
     /* configure pushbutton */
     btn.mode(MAIN_BTN_PUPD);
-    wait(.01);
-    btn.fall(&btn_onpress);
+
+    /* Register the button fall handler after a short delay. */
+    minar::Scheduler::postCallback(FunctionPointer0<void>(btn_set_fall).bind())
+        .delay(minar::milliseconds(10))
+        .tolerance(minar::milliseconds(1));
+
+    /* Set a callback to do the equivalent of pushing the button for us. Every
+     * period, press the button automatically. Pressing the button
+     * automatically after a certain period of time allows us to trigger button
+     * presses even for platforms without physically pressable buttons. */
+    minar::Scheduler::postCallback(FunctionPointer0<void>(btn_onpress).bind())
+        .period(minar::milliseconds(10000))
+        .tolerance(minar::milliseconds(100));
 }
