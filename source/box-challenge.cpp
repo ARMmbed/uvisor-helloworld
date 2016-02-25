@@ -54,7 +54,7 @@ static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
     /* time-constant comparison using XOR */
     diff = 0;
     while(len--)
-        diff += *src++ ^ *dst++;
+        diff |= *src++ ^ *dst++;
 
     /* if all bytes in src and dst are equal, the sum of the XOR's is zero */
     return !diff;
