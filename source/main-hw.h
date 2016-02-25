@@ -65,6 +65,51 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {USART1, sizeof(*USART1), UVISOR_TACLDEF_PERIPH}, \
         {(void *) 0x42470000, 0x1000, UVISOR_TACLDEF_PERIPH}, \
     }
+    
+#elif  defined(TARGET_LIKE_EFM32GG_STK) \
+    || defined(TARGET_LIKE_EFM32LG_STK) \
+    || defined(TARGET_LIKE_EFM32WG_STK)
+
+#define LED_ON  false
+#define LED_OFF true
+#define MAIN_LED LED1
+#define MAIN_BTN BTN0
+#define MAIN_BTN_PUPD PullUp
+#define MAIN_ACL(acl_list_name)                              \
+    static const UvisorBoxAclItem acl_list_name[] = {        \
+        {GPIO,      sizeof(*GPIO),   UVISOR_TACLDEF_PERIPH}, \
+        {UART0,     sizeof(*UART0),  UVISOR_TACLDEF_PERIPH}, \
+        {TIMER0,    sizeof(*TIMER0), UVISOR_TACLDEF_PERIPH}, \
+        /* FIXME: Secure CMU */                              \
+        {CMU,       sizeof(*CMU),    UVISOR_TACLDEF_PERIPH}, \
+        {RTC,       sizeof(*RTC),    UVISOR_TACLDEF_PERIPH}, \
+        /* FIXME: Secure MSC */                              \
+        {MSC,       sizeof(*MSC),    UVISOR_TACLDEF_PERIPH}, \
+        /* mbed-hal-silabs requires the DI page to be readable */  \
+        {(void*) 0x0FE08000, 0x1000, UVISOR_TACLDEF_SECURE_CONST}, \
+    }
+
+#elif defined(TARGET_LIKE_EFM32PG_STK)
+
+#define LED_ON  false
+#define LED_OFF true
+#define MAIN_LED LED1
+#define MAIN_BTN BTN0
+#define MAIN_BTN_PUPD PullUp
+#define MAIN_ACL(acl_list_name)                              \
+    static const UvisorBoxAclItem acl_list_name[] = {        \
+        {GPIO,      sizeof(*GPIO),   UVISOR_TACLDEF_PERIPH}, \
+        {USART0,    sizeof(*USART0), UVISOR_TACLDEF_PERIPH}, \
+        {TIMER0,    sizeof(*TIMER0), UVISOR_TACLDEF_PERIPH}, \
+        /* FIXME: Secure CMU */                              \
+        {CMU,       sizeof(*CMU),    UVISOR_TACLDEF_PERIPH}, \
+        {EMU,       sizeof(*EMU),    UVISOR_TACLDEF_PERIPH}, \
+        {RTCC,      sizeof(*RTCC),   UVISOR_TACLDEF_PERIPH}, \
+        /* FIXME: Secure MSC */                              \
+        {MSC,       sizeof(*MSC),    UVISOR_TACLDEF_PERIPH}, \
+        /* mbed-hal-silabs requires the DI page to be readable */  \
+        {(void*) 0x0FE08000, 0x1000, UVISOR_TACLDEF_SECURE_CONST}, \
+    }
 
 #else
 

@@ -28,6 +28,21 @@ else
 	YT_TARGET:=frdm-k64f-gcc
 endif
 	GDB_TARGET:=k64f
+else ifeq ("$(ARCH)","EFM32")
+	CPU:=$(ARCH)$(FAMILY)$(DEVICE)
+	GDB_TARGET:=efm32
+	ifeq ("$(FAMILY)","GG")
+		YT_TARGET:=efm32gg-stk-gcc
+	endif
+	ifeq ("$(FAMILY)","LG")
+		YT_TARGET:=efm32lg-stk-gcc
+	endif
+	ifeq ("$(FAMILY)","WG")
+		YT_TARGET:=efm32wg-stk-gcc
+	endif
+	ifeq ("$(FAMILY)","PG1B")
+		YT_TARGET:=efm32pg-stk-gcc
+	endif
 else
 	ARCH:=STM32F4
 	CPU:=$(ARCH)29ZI
