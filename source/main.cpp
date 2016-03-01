@@ -45,7 +45,6 @@ static void toggle_led(void)
 static void retry_secret(void)
 {
     /* check secret */
-    pc.printf("verifying secret...");
     bool verified = verify_secret(g_challenge, sizeof(g_challenge));
     pc.printf(" done\n\r");
 
