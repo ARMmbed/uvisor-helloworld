@@ -20,6 +20,7 @@
 #include "uvisor-lib/uvisor-lib.h"
 #include "main-hw.h"
 #include "box-challenge.h"
+#include "box-debug.h"
 #include "btn.h"
 
 using mbed::util::FunctionPointer0;
@@ -66,6 +67,9 @@ void app_start(int, char *[])
     pc.baud(115200);
 
     pc.printf("***** uvisor-helloworld example *****\n\r");
+
+    /* Initialize the debug box. */
+    box_debug::init();
 
     /* reset challenge */
     memset(&g_challenge, 0, sizeof(g_challenge));
