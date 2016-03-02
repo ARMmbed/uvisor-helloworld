@@ -61,6 +61,18 @@ static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
     return !diff;
 }
 
+static inline bool buffer_overlaps_box_context(const void *buffer, size_t length)
+{
+    uintptr_t buffer_addr = (uintptr_t) buffer;
+    uintptr_t ctx_addr = (uintptr_t) uvisor_ctx;
+    size_t ctx_length = sizeof(box_challenge_reserved);
+
+    return (buffer_addr <= ctx_addr &&
+            buffer_addr + length > ctx_addr) ||
+           (ctx_addr <= buffer_addr &&
+            ctx_addr + ctx_length > buffer_addr);
+}
+
 UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
 {
     /* We only accept calls where 'len' equals CHALLENGE_SIZE.
@@ -76,8 +88,14 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
     if(len!=CHALLENGE_SIZE)
         return false;
 
-    /* FIXME Verify that the secret pointer points outside of box stack
-     * context. */
+    /* Verify that the secret pointer points outside of box stack context. This
+     * is important to ensure that a challenger can't use memory internal to
+     * the challenge box (stack, uvisor_ctx, etc.) to pass the challenge. */
+    /* FIXME Use a uvisor-provided API to check that memory belongs to this box
+     * or not. */
+    if (buffer_overlaps_box_context(secret, len)) {
+        return false;
+    }
 
     /* Generate a new secret on the first run. */
     /* FIXME Enable clocks for the HW-RNG. */
