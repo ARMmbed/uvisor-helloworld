@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2015, ARM Limited, All Rights Reserved
+ * Copyright (c) 2013-2016, ARM Limited, All Rights Reserved
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -19,7 +19,7 @@
 
 #define CHALLENGE_SIZE 16
 
-extern bool verify_secret(const uint8_t *secret, int len);
+extern bool challenge_verify(const uint8_t *secret, int len);
 extern void *g_box_context;
 
 #endif/*__UVISOR_HELLOWORLD_BOX_CHALLENGE_H__*/

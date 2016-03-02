@@ -47,7 +47,7 @@ static void retry_secret(void)
 {
     /* Check the secret. */
     pc.printf("verifying secret...");
-    bool verified = verify_secret(g_challenge, sizeof(g_challenge));
+    bool verified = challenge_verify(g_challenge, sizeof(g_challenge));
     pc.printf(" done\n\r");
 
     /* Cancel the previous event for LED blinking. */

@@ -73,7 +73,7 @@ static inline bool buffer_overlaps_box_context(const void *buffer, size_t length
             ctx_addr + ctx_length > buffer_addr);
 }
 
-UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
+UVISOR_EXTERN bool __challenge_verify(const uint8_t *secret, int len)
 {
     /* We only accept calls where 'len' equals CHALLENGE_SIZE.
      * Although this creates a timing side channel which exposes the
@@ -107,9 +107,10 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
     return secure_compare(secret, uvisor_ctx->secret, len);
 }
 
-bool verify_secret(const uint8_t *secret, int len)
+bool challenge_verify(const uint8_t *secret, int len)
 {
-    /* A security transition happens here. This ensures that __verify_secret()
-     * will run with the privileges of the box_challenge box. */
-    return secure_gateway(box_challenge, __verify_secret, secret, len);
+    /* A security transition happens here. This ensures that
+     * __challenge_verify() will run with the privileges of the box_challenge
+     * box. */
+    return secure_gateway(box_challenge, __challenge_verify, secret, len);
 }
