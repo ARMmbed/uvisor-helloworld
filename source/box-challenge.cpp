@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2015, ARM Limited, All Rights Reserved
+ * Copyright (c) 2013-2016, ARM Limited, All Rights Reserved
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -24,10 +24,10 @@ typedef struct {
     bool initialized;
 } BoxContext;
 
-/* create ACLs for secret data section */
+/* Create ACLs for the secret data section. */
 BOX_CHALLENGE_ACL(g_box_acl);
 
-/* configure secure box compartment and reserve box context */
+/* Configure the secure box compartment and reserve box context. */
 UVISOR_BOX_NAMESPACE(NULL);
 UVISOR_BOX_CONFIG(box_challenge, g_box_acl, UVISOR_BOX_STACK_SIZE, BoxContext);
 
@@ -35,12 +35,12 @@ void *g_box_context;
 
 static void randomize_new_secret(void)
 {
-    /* FIXME replace with HW-RNG */
+    /* FIXME Replace with the use of a HW-RNG. */
     memset(uvisor_ctx->secret, 1, sizeof(uvisor_ctx->secret));
 
-    /* the address of the context is stored and exposed, only for testing
-     * purposes; uvisor protection ensures that accesses to this memory location
-     * outside the box secure context will fail */
+    /* The address of the context is stored and exposed, only for testing
+     * purposes; uVisor protection ensures that accesses to this memory
+     * location outside the box secure context will fail. */
     g_box_context = (void *) uvisor_ctx;
 }
 
@@ -48,16 +48,16 @@ static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
 {
     int diff;
 
-    /* disallow length<0 */
+    /* Disallow a length less than 0. */
     if(len<0)
         return false;
 
-    /* time-constant comparison using XOR */
+    /* Perform a time-constant comparison using XOR. */
     diff = 0;
     while(len--)
         diff |= *src++ ^ *dst++;
 
-    /* if all bytes in src and dst are equal, the sum of the XOR's is zero */
+    /* If all bytes in src and dst are equal, the sum of the XORs is zero. */
     return !diff;
 }
 
@@ -76,10 +76,11 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
     if(len!=CHALLENGE_SIZE)
         return false;
 
-    /* FIXME verify that secret pointer points outside of box stack context */
+    /* FIXME Verify that the secret pointer points outside of box stack
+     * context. */
 
-    /* Generate new secret on the first run. */
-    /* FIXME enable clocks for HW-RNG */
+    /* Generate a new secret on the first run. */
+    /* FIXME Enable clocks for the HW-RNG. */
     if (!uvisor_ctx->initialized) {
         randomize_new_secret();
         uvisor_ctx->initialized = true;
@@ -90,8 +91,7 @@ UVISOR_EXTERN bool __verify_secret(const uint8_t *secret, int len)
 
 bool verify_secret(const uint8_t *secret, int len)
 {
-    /* security transition happens here
-     *   ensures that __verify_secret() will run with the privileges
-     *   of the box_challenge box */
+    /* A security transition happens here. This ensures that __verify_secret()
+     * will run with the privileges of the box_challenge box. */
     return secure_gateway(box_challenge, __verify_secret, secret, len);
 }
