@@ -77,6 +77,9 @@ void app_start(int, char *[])
     /* Turn the LED off. */
     led = LED_OFF;
 
+    /* Initialize the challenge. */
+    challenge_init();
+
     /* Configure the pushbutton. */
     btn_init();
 

@@ -37,11 +37,6 @@ static void randomize_new_secret(void)
 {
     /* FIXME Replace with the use of a HW-RNG. */
     memset(uvisor_ctx->secret, 1, sizeof(uvisor_ctx->secret));
-
-    /* The address of the context is stored and exposed, only for testing
-     * purposes; uVisor protection ensures that accesses to this memory
-     * location outside the box secure context will fail. */
-    g_box_context = (void *) uvisor_ctx;
 }
 
 static bool secure_compare(const uint8_t *src, const uint8_t *dst, int len)
@@ -97,11 +92,9 @@ UVISOR_EXTERN bool __challenge_verify(const uint8_t *secret, int len)
         return false;
     }
 
-    /* Generate a new secret on the first run. */
-    /* FIXME Enable clocks for the HW-RNG. */
+    /* Don't verify the challenge if the challenge hasn't been initialized. */
     if (!uvisor_ctx->initialized) {
-        randomize_new_secret();
-        uvisor_ctx->initialized = true;
+        return false;
     }
 
     return secure_compare(secret, uvisor_ctx->secret, len);
@@ -113,4 +106,25 @@ bool challenge_verify(const uint8_t *secret, int len)
      * __challenge_verify() will run with the privileges of the box_challenge
      * box. */
     return secure_gateway(box_challenge, __challenge_verify, secret, len);
+}
+
+UVISOR_EXTERN void __challenge_init(void)
+{
+    /* the address of the context is stored and exposed, only for testing
+     * purposes; uvisor protection ensures that accesses to this memory location
+     * outside the box secure context will fail */
+    g_box_context = (void *) uvisor_ctx;
+
+    /* FIXME enable clocks for HW-RNG */
+    randomize_new_secret();
+
+    uvisor_ctx->initialized = true;
+}
+
+void challenge_init(void)
+{
+    /* security transition happens here
+     *   ensures that __secret_init() will run with the privileges
+     *   of the box_challenge box */
+    secure_gateway(box_challenge, __challenge_init);
 }
