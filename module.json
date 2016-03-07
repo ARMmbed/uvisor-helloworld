@@ -16,7 +16,7 @@
     }
   ],
   "dependencies": {
-    "uvisor-lib": "^1.0.0",
+    "uvisor-lib": "^2.0.0",
     "mbed-drivers": "^1.0.0"
   },
   "targetDependencies": {},
