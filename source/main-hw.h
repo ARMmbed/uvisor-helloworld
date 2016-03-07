@@ -65,7 +65,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {USART1, sizeof(*USART1), UVISOR_TACLDEF_PERIPH}, \
         {(void *) 0x42470000, 0x1000, UVISOR_TACLDEF_PERIPH}, \
     }
-    
+
 #elif  defined(TARGET_LIKE_EFM32GG_STK) \
     || defined(TARGET_LIKE_EFM32LG_STK) \
     || defined(TARGET_LIKE_EFM32WG_STK)
