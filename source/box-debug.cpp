@@ -41,7 +41,7 @@ static void halt_error(int reason)
 {
     int i, k;
     int volatile j;
-    static DigitalOut halt_led(LED_RED);
+    static DigitalOut halt_led(HALT_LED);
 
     halt_led = LED_OFF;
     for (k = 0; k < 3; k++) {

@@ -29,6 +29,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF true
 
 #define MAIN_LED LED_BLUE
+#define HALT_LED LED_RED
 
 #define MAIN_BTN SW2
 #define MAIN_BTN_PUPD PullUp
@@ -52,6 +53,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF true
 
 #define MAIN_LED LED1
+#define HALT_LED LED2
 
 #define MAIN_BTN USER_BUTTON
 #define MAIN_BTN_PUPD PullDown
@@ -80,6 +82,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF true
 
 #define MAIN_LED LED1
+#define HALT_LED LED2
 
 #define MAIN_BTN BTN0
 #define MAIN_BTN_PUPD PullUp
@@ -104,6 +107,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF true
 
 #define MAIN_LED LED1
+#define HALT_LED LED2
 
 #define MAIN_BTN BTN0
 #define MAIN_BTN_PUPD PullUp
@@ -129,6 +133,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 #define LED_OFF false
 
 #define MAIN_LED NC
+#define HALT_LED NC
 
 #define MAIN_BTN NC
 #define MAIN_BTN_PUPD PullNone
