@@ -49,8 +49,8 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
 
 #elif defined(TARGET_LIKE_STM32F429I_DISCO)
 
-#define LED_ON  false
-#define LED_OFF true
+#define LED_ON  true
+#define LED_OFF false
 
 #define MAIN_LED LED1
 #define HALT_LED LED2
