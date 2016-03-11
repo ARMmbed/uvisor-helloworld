@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2015, ARM Limited, All Rights Reserved
+ * Copyright (c) 2013-2016, ARM Limited, All Rights Reserved
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -25,10 +25,10 @@
 
 using mbed::util::FunctionPointer0;
 
-/* create ACLs for main box */
+/* Create ACLs for main box. */
 MAIN_ACL(g_main_acl);
 
-/* enable uvisor */
+/* Enable uVisor. */
 UVISOR_SET_MODE_ACL(UVISOR_ENABLED, g_main_acl);
 
 DigitalOut led(MAIN_LED);
@@ -45,16 +45,16 @@ static void toggle_led(void)
 
 static void retry_secret(void)
 {
-    /* check secret */
+    /* Check the secret. */
     pc.printf("verifying secret...");
-    bool verified = verify_secret(g_challenge, sizeof(g_challenge));
+    bool verified = challenge_verify(g_challenge, sizeof(g_challenge));
     pc.printf(" done\n\r");
 
-    /* cancel previous event for LED blinking */
+    /* Cancel the previous event for LED blinking. */
     g_scheduler->cancelCallback(g_event);
 
-    /* schedule new LED blinking pattern */
-    /* the blinking frequency will be faster if the secret has been verified */
+    /* Schedule the new LED blinking pattern. */
+    /* The blinking frequency will be faster if the secret has been verified. */
     g_event = minar::Scheduler::postCallback(FunctionPointer0<void>(toggle_led).bind())
                 .period(minar::milliseconds(verified ? 100 : 500))
                 .tolerance(minar::milliseconds(1))
@@ -63,7 +63,7 @@ static void retry_secret(void)
 
 void app_start(int, char *[])
 {
-    /* set the console baud-rate */
+    /* Set the console baud-rate. */
     pc.baud(115200);
 
     pc.printf("***** uvisor-helloworld example *****\n\r");
@@ -71,19 +71,22 @@ void app_start(int, char *[])
     /* Initialize the debug box. */
     box_debug::init();
 
-    /* reset challenge */
+    /* Reset the challenge. */
     memset(&g_challenge, 0, sizeof(g_challenge));
 
-    /* turn LED off */
+    /* Turn the LED off. */
     led = LED_OFF;
 
-    /* configure pushbutton */
+    /* Initialize the challenge. */
+    challenge_init();
+
+    /* Configure the pushbutton. */
     btn_init();
 
-    /* get handle of scheduler */
+    /* Get a handle to the scheduler. */
     g_scheduler = minar::Scheduler::instance();
 
-    /* schedule event to periodically check for secret */
+    /* Schedule an event to periodically check for the secret. */
     minar::Scheduler::postCallback(FunctionPointer0<void>(retry_secret).bind())
         .period(minar::milliseconds(1000))
         .tolerance(minar::milliseconds(100));

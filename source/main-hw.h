@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2015, ARM Limited, All Rights Reserved
+ * Copyright (c) 2013-2016, ARM Limited, All Rights Reserved
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -17,12 +17,12 @@
 #ifndef __UVISOR_HELLOWORLD_MAIN_HW_H__
 #define __UVISOR_HELLOWORLD_MAIN_HW_H__
 
-/* the vector containing the challenge is shared with the push-button ISR, so
- * that it can attempt to access it from an IRQ context */
+/* The vector containing the challenge is shared with the push-button ISR, so
+ * that it can attempt to access it from an IRQ context. */
 #include "box-challenge.h"
 extern uint8_t g_challenge[CHALLENGE_SIZE];
 
-/* target specifc ACLs */
+/* Target Specifc ACLs */
 #if   defined(TARGET_LIKE_FRDM_K64F)
 
 #define LED_ON  false
@@ -64,7 +64,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {TIM5,   sizeof(*TIM5),   UVISOR_TACLDEF_PERIPH}, \
         {GPIOA,  sizeof(*GPIOA),  UVISOR_TACLDEF_PERIPH}, \
         {GPIOG,  sizeof(*GPIOG),  UVISOR_TACLDEF_PERIPH}, \
-        /* FIXME: secure RCC/EXTI/SYSCFG/FLASH */         \
+        /* FIXME: Secure RCC/EXTI/SYSCFG/FLASH */         \
         {RCC,    sizeof(*RCC),    UVISOR_TACLDEF_PERIPH}, \
         {EXTI,   sizeof(*EXTI),   UVISOR_TACLDEF_PERIPH}, \
         {SYSCFG, sizeof(*SYSCFG), UVISOR_TACLDEF_PERIPH}, \
@@ -97,7 +97,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {RTC,       sizeof(*RTC),    UVISOR_TACLDEF_PERIPH}, \
         /* FIXME: Secure MSC */                              \
         {MSC,       sizeof(*MSC),    UVISOR_TACLDEF_PERIPH}, \
-        /* mbed-hal-silabs requires the DI page to be readable */  \
+        /* mbed-hal-silabs requires the DI page to be readable. */  \
         {(void*) 0x0FE08000, 0x1000, UVISOR_TACLDEF_SECURE_CONST}, \
     }
 
@@ -123,7 +123,7 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {RTCC,      sizeof(*RTCC),   UVISOR_TACLDEF_PERIPH}, \
         /* FIXME: Secure MSC */                              \
         {MSC,       sizeof(*MSC),    UVISOR_TACLDEF_PERIPH}, \
-        /* mbed-hal-silabs requires the DI page to be readable */  \
+        /* mbed-hal-silabs requires the DI page to be readable. */  \
         {(void*) 0x0FE08000, 0x1000, UVISOR_TACLDEF_SECURE_CONST}, \
     }
 

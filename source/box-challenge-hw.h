@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2015, ARM Limited, All Rights Reserved
+ * Copyright (c) 2013-2016, ARM Limited, All Rights Reserved
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -17,7 +17,7 @@
 #ifndef __UVISOR_HELLOWORLD_BOX_CHALLENGE_HW_H__
 #define __UVISOR_HELLOWORLD_BOX_CHALLENGE_HW_H__
 
-/* target specifc ACLs */
+/* Target Specifc ACLs */
 #if   defined(TARGET_LIKE_FRDM_K64F)
 
 #define BOX_CHALLENGE_ACL(acl_list_name) \

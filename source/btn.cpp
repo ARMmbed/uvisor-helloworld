@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2015, ARM Limited, All Rights Reserved
+ * Copyright (c) 2013-2016, ARM Limited, All Rights Reserved
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -28,9 +28,9 @@ extern Serial pc;
 
 static void btn_onpress(void)
 {
-    /* attempt copy from box_challenge context
-     * we know the context is properly aligned so we try to obtain a carbon copy
-     * of its memory location */
+    /* Attempt to copy from box_challenge context. We know the context is
+     * properly aligned so we try to obtain a carbon copy of its memory
+     * location. */
     pc.printf("attempting to read the secret...");
     memcpy(&g_challenge, g_box_context, sizeof(g_challenge));
     pc.printf(" done\n\r");
@@ -43,7 +43,7 @@ static void btn_set_fall(void)
 
 void btn_init(void)
 {
-    /* configure pushbutton */
+    /* Configure the pushbutton. */
     btn.mode(MAIN_BTN_PUPD);
 
     /* Register the button fall handler after a short delay. */
