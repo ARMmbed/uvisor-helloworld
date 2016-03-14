@@ -46,9 +46,9 @@ static void toggle_led(void)
 static void retry_secret(void)
 {
     /* Check the secret. */
-    pc.printf("verifying secret...");
+    pc.printf("Verifying secret... ");
     bool verified = challenge_verify(g_challenge, sizeof(g_challenge));
-    pc.printf(" done\n\r");
+    pc.printf("%s\r\n", verified ? "Match" : "Mismatch");
 
     /* Cancel the previous event for LED blinking. */
     g_scheduler->cancelCallback(g_event);
@@ -66,7 +66,7 @@ void app_start(int, char *[])
     /* Set the console baud-rate. */
     pc.baud(115200);
 
-    pc.printf("***** uvisor-helloworld example *****\n\r");
+    pc.printf("\r\n***** uvisor-helloworld example *****\r\n");
 
     /* Initialize the debug box. */
     box_debug::init();
@@ -91,5 +91,5 @@ void app_start(int, char *[])
         .period(minar::milliseconds(1000))
         .tolerance(minar::milliseconds(100));
 
-    pc.printf("main unprivileged box configured\n\r");
+    pc.printf("Main unprivileged box configured\r\n");
 }
