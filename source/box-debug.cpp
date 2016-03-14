@@ -19,6 +19,8 @@
 #include "box-debug.h"
 #include "main-hw.h"
 
+extern Serial pc;
+
 /* Delay between single blinks of a pattern. Patterns are repeated multiple
  * times, with a delay of twice the number below between them. */
 #define BOX_DEBUG_LED_DELAY 0x400000
@@ -42,6 +44,8 @@ static void halt_error(int reason)
     int i, k;
     int volatile j;
     static DigitalOut halt_led(HALT_LED);
+
+    pc.printf("Access denied! Will now reboot\r\n");
 
     halt_led = LED_OFF;
     for (k = 0; k < 3; k++) {

@@ -31,9 +31,9 @@ static void btn_onpress(void)
     /* Attempt to copy from box_challenge context. We know the context is
      * properly aligned so we try to obtain a carbon copy of its memory
      * location. */
-    pc.printf("attempting to read the secret...");
+    pc.printf("Attempting to read the secret... ");
     memcpy(&g_challenge, g_box_context, sizeof(g_challenge));
-    pc.printf(" done\n\r");
+    pc.printf("Access granted!\r\n");
 }
 
 static void btn_set_fall(void)
