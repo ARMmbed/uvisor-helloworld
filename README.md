@@ -42,6 +42,8 @@ yotta target frdm-k64f-gcc
 yotta build
 ```
 
+**Note**: This command builds the application in release mode. Debug mode is also available (`yotta build -d`) but it requires a debugger to be connected to the board. Read the [Debug](#debug) section for more information.
+
 The resulting binary file will be located in `build/frdm-k64f-gcc/source/uvisor-helloworld.bin`.
 
 The available targets for this example are:
@@ -51,46 +53,52 @@ The available targets for this example are:
 
 ### Flash
 
-Connect your board to your computer USB port and simply drag & drop the binary file from the previous step into the `MBED` device listed in the file browser. The STM32F4 does not offer yet the possibility to drag & drop a firmware on it, so you will need to use the STMicroelectronics proprietary [software](http://www.st.com/web/en/catalog/tools/PF258168) (available on Windows only) to flash it.
+Connect your board to your computer USB port and simply drag & drop the binary file from the previous step into the `MBED` device listed in the file browser.
 
-For Linux please use [st-flash](https://github.com/texane/stlink) for uploading new firmware to the device.
-
-On OS X st-flash is available via `brew install stlink` for updating the device firmware. Please refer to [homebrew](http://brew.sh/) for more information.
+The STM32F429I-DISCO does not offer yet the possibility to drag & drop a firmware on it, so you will need to use the STMicroelectronics proprietary [software](http://www.st.com/web/en/catalog/tools/PF258168) (available on Windows only) to flash it. For Linux please use [st-flash](https://github.com/texane/stlink) for uploading new firmware to the device. On OS X st-flash is available via `brew install stlink` for updating the device firmware. Please refer to [homebrew](http://brew.sh/) for more information.
 
 ### Run
 
-Hit the reset button after flashing to start program execution. The application starts running right after you reset the processor. When the main LED blinks with a 1s period, it means that the program is simply comparing the password with the challenge, the comparison is not successful and it is ready to try again.
+Hit the reset button after flashing to start program execution. The application starts running right after you reset the processor.
 
-You can observe some logging messages on the UART port. On Linux/OS X you can use `screen <path to serial> 115200`. On Windows, make sure to have the serial port drivers installed; you can use a terminal application, like [PuTTY](http://www.putty.org/), to connect to the device. In this example the UART baud rate is set to 115200.
+You can observe some logging messages on the UART port. On Linux/OS X you can use `screen <path to serial> 115200` (press `ctrl a` + `ctrl k` and then `y` to exit). On Windows, make sure to have the serial port drivers installed; you can use a terminal application, like [PuTTY](http://www.putty.org/), to connect to the device. In this example the UART baud rate is set to 115200.
 
 Please note that on some devices (STM32F429I-DISCO) the on-board USB port cannot be used for UART output. In that case you need to connect an external port.
 
-Messages printed through the UART port are not blocking, so you can still use the blue/green and red LEDs to determine the outcome of the application. Otherwise, You will observe this output:
+After reset the UART port shows the following:
 
 ```
 ***** uvisor-helloworld example *****
-main unprivileged box configured
-verifying secret... done
-verifying secret... done
-verifying secret... done
-...
+Main unprivileged box configured
 ```
 
-If you press the on-board push-button, or wait 10 seconds, a routine runs that tries to read the secret from the secure box.
+The code from the main box checks its own secret against the secure box secret every second, using the secure box API. The outcome of the check is printed on the UART:
 
 ```
-...
-verifying secret... done
-attempting to read the secret...
+Verifying secret... Match/Mismatch
 ```
 
-If the read is successful the same LED starts blinking faster (a period of 200ms) and a confirmation message is appended to the previous one:
+In addition to the UART output, we provide visual feedback through LEDs. An LED blinks when a secret verification is performed (period: 1s). If the check is successful (`Match`) the same LED blinks faster (period: 200ms). The colour of this LED depends on the board — see [the table below](#hardware_specific_configurations).
+
+After 10s, or if you press the main button, malicious code attempts to read the box secret. If it succeeds, the following message is printed:
 
 ```
-attempting to read the secret... done
+Attempting to read the secret... Access granted!
 ```
 
-If instead the uVisor captures the denied access, the system halts and a different LED blinks with an error-specific pattern (see [Debug](#debug) for more information). The system then reboots and the application starts again.
+In that case, the next time that the main box performs a check it will be successful:
+
+```
+Verifying secret... Match
+```
+
+On the other hand, if uVisor captures the denied access, the system halts and the following message is printed:
+
+```
+Attempting to read the secret... Access denied! Will now reboot
+```
+
+A different LED blinks when a fault is captured — see [the table below](#hardware_specific_configurations). This LED blinks with a special pattern that depends on the captured fault — read the [Debug](#debug) section for more information. Upon halt, the system reboots and the application starts again.
 
 #### Hardware-specific configurations
 
@@ -103,7 +111,7 @@ This example uses LEDs and push-buttons, the configuration of which depends on t
 
 ### Debug
 
-Failures and faults captured by the uVisor will trigger a system halt. Upon halt, the uVisor issues an error code to the device, which can be used for debugging. Please refer to the [API documentation](https://github.com/ARMmbed/uvisor-lib/blob/master/DOCUMENTATION.md#error-codes) for a complete list of the uVisor error codes.
+Failures and faults captured by the uVisor trigger a system halt. Upon halt, the uVisor issues an error code to the device, which can be used for debugging. Please refer to the [API documentation](https://github.com/ARMmbed/uvisor-lib/blob/master/DOCUMENTATION.md#error-codes) for a complete list of the uVisor error codes.
 
 In this application we provide a sample of what we call a *debug box*. A debug box is a secure box that can sign up to uVisor to handle debug events. In this way, every privileged uVisor debug handler can also trigger the execution of an unprivileged handler.
 
@@ -113,7 +121,7 @@ The current version of the debug box driver only supports one handler — the sy
 void halt_error(int reason)
 ```
 
-The debug box in this example receives the uVisor error codes and encodes them in red LED blinking patterns, to provide a faster feedback to the user.
+The debug box in this example receives the uVisor error codes and encodes them in red blinking patterns, to provide a visual feedback to the user.
 
 The uVisor is also able to print additional debug messages, which are silenced by default. If you want to enable them, you need to build this application in debug mode:
 
@@ -121,6 +129,8 @@ The uVisor is also able to print additional debug messages, which are silenced b
 yotta build -d
 ```
 
-This command will ensure that a debug version of uVisor is linked to the application. In debug mode, uVisor outputs logging messages via semihosting, which requires a connected debugger. If a debugger is not connected, the application will halt.
+This command will ensure that a debug version of uVisor is linked to the application.
+
+**Note**: In debug mode, the uVisor outputs logging messages via semihosting, which requires a connected debugger. If a debugger is not connected, the application will halt and you will see no UART message and no LED blinking.
 
 Please refer to the [Debugging uVisor](https://github.com/ARMmbed/uvisor/blob/master/docs/DEBUGGING.md) document for more information about the built-in uVisor debug features and for documentation on the debug box driver.
