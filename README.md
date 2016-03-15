@@ -61,7 +61,7 @@ The STM32F429I-DISCO does not offer yet the possibility to drag & drop a firmwar
 
 Hit the reset button after flashing to start program execution. The application starts running right after you reset the processor.
 
-You can observe some logging messages on the UART port. On Linux/OS X you can use `screen <path to serial> 115200` (press `ctrl a` + `ctrl k` and then `y` to exit). On Windows, make sure to have the serial port drivers installed; you can use a terminal application, like [PuTTY](http://www.putty.org/), to connect to the device. In this example the UART baud rate is set to 115200.
+You can observe some logging messages on the UART port. On Linux/OS X you can use `screen <path to serial> 115200` (press `ctrl a k` to exit). On Windows, make sure to have the serial port drivers installed; you can use a terminal application, like [PuTTY](http://www.putty.org/), to connect to the device. In this example the UART baud rate is set to 115200.
 
 Please note that on some devices (STM32F429I-DISCO) the on-board USB port cannot be used for UART output. In that case you need to connect an external port.
 
