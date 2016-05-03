@@ -127,6 +127,41 @@ extern uint8_t g_challenge[CHALLENGE_SIZE];
         {(void*) 0x0FE08000, 0x1000, UVISOR_TACLDEF_SECURE_CONST}, \
     }
 
+#elif defined(TARGET_LIKE_NUMBED_NUC472)
+
+#define LED_ON  false
+#define LED_OFF true
+
+#define MAIN_LED LED_BLUE
+#define HALT_LED LED_RED
+
+#define MAIN_BTN SW2
+#define MAIN_BTN_PUPD PullUp
+
+#define MAIN_ACL(acl_list_name) \
+    static const UvisorBoxAclItem acl_list_name[] = {     \
+        {(void *)0x40000000,    0x100000,    UVISOR_TACLDEF_PERIPH}, \
+        {(void *)0xE000E000,    0x1000,      UVISOR_TACLDEF_PERIPH}, \
+        {(void *)0x60000000,    0x100000,    UVISOR_TACL_ACCESS}, \
+    }
+    
+#elif defined(TARGET_LIKE_NUMBED_M453)
+
+#define LED_ON  false
+#define LED_OFF true
+
+#define MAIN_LED LED_BLUE
+#define HALT_LED LED_RED
+
+#define MAIN_BTN SW2
+#define MAIN_BTN_PUPD PullUp
+
+#define MAIN_ACL(acl_list_name) \
+    static const UvisorBoxAclItem acl_list_name[] = {     \
+        {(void *)0x40000000,    0x100000,    UVISOR_TACLDEF_PERIPH}, \
+        {(void *)0xE000E000,    0x1000,      UVISOR_TACLDEF_PERIPH}, \
+    }
+    
 #else
 
 #define LED_ON  true
