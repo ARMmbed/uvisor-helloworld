@@ -1,3 +1,5 @@
+> **This example is deprecated and kept for historic purposed only: please refer to the [main repository](https://github.com/ARMmbed/uvisor) for more information**.
+
 # Hello World example for the uVisor
 
 This is a Hello World yotta executable created to show some of the security features provided by the uVisor. The application hosts a secure box that is able to generate a secret at runtime. The secret is stored in the box context, so it is protected by uVisor against the rest of the code.
